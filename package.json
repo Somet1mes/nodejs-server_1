@@ -4,11 +4,10 @@
   "description": "To make a chat server plugin for superpowers",
   "dependencies": {
     "express": "^4.15.2",
-    "socket.io": "^2.0.4"
-  }
-  "scripts":
-  {
-      "start": "node index.js"
+    "socket.io": "^2.0.4",
   },
-  "main": "index.js"
+  "scripts": {
+      "start": "node index.js",
+  },
+  "main": "index.js",
 }
