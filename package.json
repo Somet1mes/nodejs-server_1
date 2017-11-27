@@ -1,7 +1,7 @@
 {
   "name": "socket_chat",
   "version": "0.0.1",
-  "description": "To make a chat server plugin for superpowers",
+  "description": "To make a server plugin for superpowers",
   "scripts": {
     "start": "node index.js"
   },
