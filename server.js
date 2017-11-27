@@ -134,7 +134,7 @@ function playerStackSort()
 
 
 
-http.listen(server_port, server_ip_address, 
+server.listen(server_port, server_ip_address, 
 	function()
 	{
 		console.log("listening on " + server_ip_address + ", port " + server_port);
