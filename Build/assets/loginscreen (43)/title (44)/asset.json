@@ -1,10 +1,10 @@
 {
   "formatVersion": 2,
   "isBitmap": false,
-  "filtering": "smooth",
+  "filtering": "pixelated",
   "pixelsPerUnit": 20,
-  "size": 32,
-  "color": "ffffff",
+  "size": 64,
+  "color": "000000",
   "opacity": null,
   "gridWidth": 16,
   "gridHeight": 16,

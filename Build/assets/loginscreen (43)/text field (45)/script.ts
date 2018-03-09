@@ -1,6 +1,8 @@
+var playerID;
+
 class TextFieldBehavior extends Sup.Behavior {
   
-  text = "";
+  text = "HELP";
 
   private font: Sup.Font;
   private column = 0;
@@ -8,15 +10,20 @@ class TextFieldBehavior extends Sup.Behavior {
   private cursorWidth: number;
   private blinkTimer = 0;
   static blinkDuration = 20;
+  //serverURL = "http://192.168.1.3:8080;"
+  serverURL = "http://trying-again-trying-again.193b.starter-ca-central-1.openshiftapps.com/";
+  socket;
   
   awake() {
     this.font = this.actor.textRenderer.getFont();
     
     this.actor.textRenderer.setText(this.text);
     this.column = this.text.length;
-    this.cursorActor = this.actor.getChild("Cursor");
+    this.cursorActor = this.actor.getChild("cursor");
     this.cursorActor.textRenderer.setOpacity(0.5);
     this.cursorWidth = this.font.getTextWidth("|");
+    
+    this.socket = io(this.serverURL);
   }
 
   update() {
@@ -42,6 +49,11 @@ class TextFieldBehavior extends Sup.Behavior {
       this.refresh();
     }
     
+    if (Sup.Input.wasKeyJustPressed("ENTER"))
+      {
+        this.checkID(this.text);
+      }
+    
     // Moving around
     if (Sup.Input.wasKeyJustPressed("LEFT", { autoRepeat: true })) { this.column = Math.max(0, this.column - 1); this.refresh(); }
     if (Sup.Input.wasKeyJustPressed("RIGHT", { autoRepeat: true })) { this.column = Math.min(this.text.length, this.column + 1); this.refresh(); }
@@ -65,6 +77,27 @@ class TextFieldBehavior extends Sup.Behavior {
     if (this.actor.textRenderer.getAlignment() === "center") offset -= this.font.getTextWidth(this.text) / 2;
     this.cursorActor.setLocalX(offset - this.cursorWidth / 2);
   }
+  
+  checkID(id)
+  {
+    this.socket.emit('checkID', id);
+    
+    this.socket.on('returnID', function(idcheck)
+                  {
+      if (idcheck === true)
+        {
+          Sup.loadScene("Scene");
+          playerID = id;
+        }
+      else
+        {
+          this.text = "Enter a Unique ID";
+          this.refresh();
+        }
+    })
+    
+  }
+  
 
 }
 Sup.registerBehavior(TextFieldBehavior);

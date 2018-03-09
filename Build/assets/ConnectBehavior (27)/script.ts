@@ -1,7 +1,7 @@
 class ConnectBehavior extends Sup.Behavior 
 {
   name = "subject1";
-  playerID = 6;
+  playerID = playerID;
   playerObj = new Player_Obj();
   
   socket;
@@ -79,6 +79,7 @@ class ConnectBehavior extends Sup.Behavior
     
     var _self = this;
     var count;
+    
 
     
     this.socket.on('Update Players', 

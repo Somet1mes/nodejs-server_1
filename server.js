@@ -82,6 +82,20 @@ function onConnection(socket)
 
     console.log('A user has connected');
 
+    socket.on('checkID',
+        function(id)
+        {
+            var check = true;
+            for (var i = 1; i < playerstack.length -1; i++)
+            {
+                if (id === playerstack[i].playerID)
+                {
+                    check = false;
+                }
+            }
+            socket.emit('returnID', check);
+        });
+
 
     socket.on('Initialise Player', 
         function(playerID)
