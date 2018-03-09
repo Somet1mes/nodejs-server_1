@@ -1,8 +1,42 @@
+<<<<<<< HEAD
 "use strict";
+=======
+/*************************************************************************************
+>>>>>>> 15a7cbe917983b221f024cdf3e87d501613cab1b
 
 //other classes
 const hitbox = require('./hitbox.js');
 
+<<<<<<< HEAD
+=======
+Alright guys this is how this is gonna go down
+
+    first the server will authenticate with the sql database
+
+    Then when someone connects we send them the client html file
+
+    Then from the client they send us the player id and we tell them if it worked
+
+        if it dd work then we initialise their player on the game part of the server
+        this is also when the client should load up the actual game bit 
+
+            in the game bit, the client should send us the inputs and we should send it 
+            the positions, velocities and animations of everything thats server controled
+                which is probablly anything that moves
+
+
+
+*************************************************************************************/
+
+
+"use strict";
+
+//other classes
+const hitbox = require('./hitbox.js');
+var SupEngine = require('./Build/SupEngine.js');
+var THREE = SupEngine.THREE;
+
+>>>>>>> 15a7cbe917983b221f024cdf3e87d501613cab1b
 // Socket Server
 var express = require('express');
 var app = express();
@@ -11,6 +45,7 @@ var io = require('socket.io').listen(server);
 
 //SQL data base
 var mysql = require('mysql');
+<<<<<<< HEAD
 
 var pool = mysql.createPool(
     {
@@ -22,6 +57,19 @@ var pool = mysql.createPool(
         database: "sso"
     });
 
+=======
+
+var pool = mysql.createPool(
+    {
+        connectionLimit: 100,
+        host: "192.168.1.3",
+        port: "3307",
+        user: "SSOserver",
+        password: "candycane",
+        database: "sso"
+    });
+
+>>>>>>> 15a7cbe917983b221f024cdf3e87d501613cab1b
 
 
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
@@ -31,7 +79,10 @@ var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 // An array to store all of the players currently
 var playerStack = [];
 
+<<<<<<< HEAD
 // Set the file with all the client stuff so it can be sent so index.html can use it
+=======
+>>>>>>> 15a7cbe917983b221f024cdf3e87d501613cab1b
 
 app.use(express.static(__dirname + '/Build'));
 
@@ -40,7 +91,11 @@ app.get('/',
 
     function(req, res)
     {
+<<<<<<< HEAD
         res.sendFile(__dirname + '/Builds/index.html');
+=======
+        res.sendFile(__dirname + '/Build/index.html');
+>>>>>>> 15a7cbe917983b221f024cdf3e87d501613cab1b
     }
     );
 
@@ -239,6 +294,7 @@ function Actor()
     //Keys
     this.key_Array = []
     this.key_LEFT = new Key();
+<<<<<<< HEAD
     this.key_Array.push(key_LEFT);
     this.key_RIGHT = new Key();
     this.key_Array.push(key_RIGHT);
@@ -246,6 +302,15 @@ function Actor()
     this.key_Array.push(key_UP);
     this.key_DOWN = new Key();
     this.key_Array.push(key_DOWN);
+=======
+    this.key_Array.push(this.key_LEFT);
+    this.key_RIGHT = new Key();
+    this.key_Array.push(this.key_RIGHT);
+    this.key_UP = new Key();
+    this.key_Array.push(this.key_UP);
+    this.key_DOWN = new Key();
+    this.key_Array.push(this.key_DOWN);
+>>>>>>> 15a7cbe917983b221f024cdf3e87d501613cab1b
 
     //Sprite + Animation
     this.animation = "Idle"
@@ -263,6 +328,11 @@ function Actor()
     this.rollSpeed = 0;
     this.jumpSpeed = 0;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 15a7cbe917983b221f024cdf3e87d501613cab1b
     // Hit box
     this.hitbox = new hitbox(1,1,1,1);
 
