@@ -5,8 +5,8 @@ class ConnectBehavior extends Sup.Behavior
   playerObj = new Player_Obj();
   
   socket;
-  serverURL = "http://192.168.1.3:8080;"
-  //serverURL = "http://trying-again-trying-again.193b.starter-ca-central-1.openshiftapps.com/"
+  //serverURL = "http://192.168.1.3:8080;"
+  serverURL = "http://trying-again-trying-again.193b.starter-ca-central-1.openshiftapps.com/"
   currentPlayerStack: Player_and_Actor_Obj[];
   userActor: Sup.Actor
   userBehavior
