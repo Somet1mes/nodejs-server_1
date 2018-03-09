@@ -1,0 +1,18 @@
+player has a set of status's
+each status has a duration
+and whether it is active
+
+  stun  slow  silence..
+
+when a status is active set the duration and active to true
+when duration = 0 set the active to false
+
+check if any status is active before making a move
+
+
+
+
+when another status is applied check if new duration is greater than current duration.
+  if true set current duration to new duration.
+  
+  

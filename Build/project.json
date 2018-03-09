@@ -1,0 +1,190 @@
+{
+  "name": "stylish stickmen",
+  "assets": [
+    {
+      "id": "0",
+      "name": "Scene",
+      "type": "scene"
+    },
+    {
+      "id": "43",
+      "name": "loginscreen",
+      "type": null,
+      "children": [
+        {
+          "id": "40",
+          "name": "login",
+          "type": "scene"
+        },
+        {
+          "id": "41",
+          "name": "loginscreen",
+          "type": "tileMap"
+        },
+        {
+          "id": "42",
+          "name": "login tiles",
+          "type": "tileSet"
+        },
+        {
+          "id": "44",
+          "name": "title",
+          "type": "font"
+        },
+        {
+          "id": "45",
+          "name": "text field",
+          "type": "script"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "name": "Tile Set",
+      "type": "tileSet"
+    },
+    {
+      "id": "6",
+      "name": "Map",
+      "type": "tileMap"
+    },
+    {
+      "id": "1",
+      "name": "Player",
+      "type": null,
+      "children": [
+        {
+          "id": "21",
+          "name": "pre",
+          "type": "scene"
+        },
+        {
+          "id": "3",
+          "name": "PlayerBehavior",
+          "type": "script"
+        },
+        {
+          "id": "19",
+          "name": "stickman",
+          "type": "sprite"
+        },
+        {
+          "id": "29",
+          "name": "statusEffect",
+          "type": null,
+          "children": [
+            {
+              "id": "13",
+              "name": "Status_Effect",
+              "type": "script"
+            },
+            {
+              "id": "30",
+              "name": "Stun",
+              "type": "script"
+            },
+            {
+              "id": "31",
+              "name": "Roll",
+              "type": "script"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "25",
+      "name": "Player_Obj",
+      "type": "script"
+    },
+    {
+      "id": "27",
+      "name": "ConnectBehavior",
+      "type": "script"
+    },
+    {
+      "id": "32",
+      "name": "Multiplayer",
+      "type": null,
+      "children": [
+        {
+          "id": "34",
+          "name": "Prefab",
+          "type": "scene"
+        },
+        {
+          "id": "39",
+          "name": "Multiplayer_Behaviour",
+          "type": "script"
+        },
+        {
+          "id": "35",
+          "name": "stickman (1)",
+          "type": "sprite"
+        }
+      ]
+    },
+    {
+      "id": "28",
+      "name": "Player_and_Actor_Obj",
+      "type": "script"
+    },
+    {
+      "id": "15",
+      "name": "Stat_Obj",
+      "type": "script"
+    },
+    {
+      "id": "12",
+      "name": "plugin server example",
+      "type": "fText"
+    },
+    {
+      "id": "14",
+      "name": "Client_sided",
+      "type": "fText"
+    },
+    {
+      "id": "10",
+      "name": "Server_sided",
+      "type": "fText"
+    },
+    {
+      "id": "16",
+      "name": "my status idea",
+      "type": "fText"
+    },
+    {
+      "id": "22",
+      "name": "background",
+      "type": null,
+      "children": [
+        {
+          "id": "24",
+          "name": "sprite",
+          "type": "sprite"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Sprite",
+      "type": "sprite"
+    },
+    {
+      "id": "36",
+      "name": "server client relationship",
+      "type": "fText"
+    },
+    {
+      "id": "37",
+      "name": "TODO",
+      "type": "fText"
+    },
+    {
+      "id": "38",
+      "name": "my server",
+      "type": "fText"
+    }
+  ]
+}
