@@ -11,7 +11,7 @@ class TextFieldBehavior extends Sup.Behavior {
   //serverURL = "http://127.0.0.1:8080";
   //serverURL = "http://134.7.115.138:8080";
   //serverURL = "http://192.168.1.4:8080;"
-  serverURL = "http://nodejs-mongo-persistent-ele.a3c1.starter-us-west-1.openshiftapps.com/";
+  serverURL = "http://ele1-ele1.a3c1.starter-us-west-1.openshiftapps.com/";
   socket;
   
   
