@@ -17,11 +17,9 @@
     "default/shader",
     "default/sound",
     "default/sprite",
-    "default/superpowersSocketioPlugin",
     "default/tileMap",
     "default/transformHelpers",
     "default/typescript",
-    "demo/custom-api",
     "extra/cannonjs",
     "extra/eventEmitter",
     "extra/p2js",
@@ -29,13 +27,11 @@
     "extra/socketio",
     "extra/tweenjs",
     "florentpoujol/dom",
-    "florentpoujol/flang",
-    "florentpoujol/fmouseinput",
     "florentpoujol/ftext",
     "florentpoujol/threejs",
     "ralmn/superpowersSocketioPlugin",
     "ralmn/superpowersSocketioPlugin2",
-    "SparedRay/easystar-js"
+    "sometimes/socketioserverplugin"
   ],
   "paths": {
     "editors": {

@@ -44,6 +44,11 @@
       "type": "tileSet"
     },
     {
+      "id": "53",
+      "name": "Globals",
+      "type": "script"
+    },
+    {
       "id": "6",
       "name": "Map",
       "type": "tileMap"
@@ -61,6 +66,11 @@
         {
           "id": "3",
           "name": "PlayerBehavior",
+          "type": "script"
+        },
+        {
+          "id": "54",
+          "name": "keyList",
           "type": "script"
         },
         {
@@ -125,6 +135,62 @@
       ]
     },
     {
+      "id": "48",
+      "name": "Server_Clone",
+      "type": null,
+      "children": [
+        {
+          "id": "49",
+          "name": "Prefab",
+          "type": "scene"
+        },
+        {
+          "id": "50",
+          "name": "Server_Clone_Behavior",
+          "type": "script"
+        },
+        {
+          "id": "51",
+          "name": "stickman (1)",
+          "type": "sprite"
+        }
+      ]
+    },
+    {
+      "id": "55",
+      "name": "Attacks",
+      "type": null,
+      "children": [
+        {
+          "id": "58",
+          "name": "AttacksBehavior",
+          "type": "script"
+        },
+        {
+          "id": "59",
+          "name": "FireBall",
+          "type": null,
+          "children": [
+            {
+              "id": "56",
+              "name": "FireBall",
+              "type": "sprite"
+            },
+            {
+              "id": "57",
+              "name": "Prefab",
+              "type": "scene"
+            },
+            {
+              "id": "61",
+              "name": "FireBallBehavior",
+              "type": "script"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "28",
       "name": "Player_and_Actor_Obj",
       "type": "script"
@@ -133,26 +199,6 @@
       "id": "15",
       "name": "Stat_Obj",
       "type": "script"
-    },
-    {
-      "id": "12",
-      "name": "plugin server example",
-      "type": "fText"
-    },
-    {
-      "id": "14",
-      "name": "Client_sided",
-      "type": "fText"
-    },
-    {
-      "id": "10",
-      "name": "Server_sided",
-      "type": "fText"
-    },
-    {
-      "id": "16",
-      "name": "my status idea",
-      "type": "fText"
     },
     {
       "id": "22",
@@ -177,19 +223,46 @@
       "type": "sprite"
     },
     {
-      "id": "36",
-      "name": "server client relationship",
-      "type": "fText"
-    },
-    {
       "id": "37",
       "name": "TODO",
       "type": "fText"
     },
     {
-      "id": "38",
-      "name": "my server",
-      "type": "fText"
+      "id": "60",
+      "name": "OldText",
+      "type": null,
+      "children": [
+        {
+          "id": "38",
+          "name": "my server",
+          "type": "fText"
+        },
+        {
+          "id": "36",
+          "name": "server client relationship",
+          "type": "fText"
+        },
+        {
+          "id": "16",
+          "name": "my status idea",
+          "type": "fText"
+        },
+        {
+          "id": "10",
+          "name": "Server_sided",
+          "type": "fText"
+        },
+        {
+          "id": "12",
+          "name": "plugin server example",
+          "type": "fText"
+        },
+        {
+          "id": "14",
+          "name": "Client_sided",
+          "type": "fText"
+        }
+      ]
     }
   ]
 }

@@ -1,23 +1,29 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
 var LightUpdater_1 = require("./LightUpdater");
-var Light = (function (_super) {
+var Light = /** @class */ (function (_super) {
     __extends(Light, _super);
     function Light(actor) {
-        _super.call(this, actor, "Light");
-        this.color = 0xffffff;
-        this.intensity = 1;
-        this.distance = 0;
-        this.angle = Math.PI / 3;
-        this.target = new THREE.Vector3(0, 0, 0);
-        this.castShadow = false;
-        this.shadow = {
+        var _this = _super.call(this, actor, "Light") || this;
+        _this.color = 0xffffff;
+        _this.intensity = 1;
+        _this.distance = 0;
+        _this.angle = Math.PI / 3;
+        _this.target = new THREE.Vector3(0, 0, 0);
+        _this.castShadow = false;
+        _this.shadow = {
             mapSize: new THREE.Vector2(512, 512),
             bias: 0,
             camera: {
@@ -30,7 +36,8 @@ var Light = (function (_super) {
                 bottom: -100
             }
         };
-        this.actor.gameInstance.threeRenderer.shadowMap.enabled = true;
+        _this.actor.gameInstance.threeRenderer.shadowMap.enabled = true;
+        return _this;
     }
     Light.prototype.setType = function (type) {
         if (this.light != null)
@@ -193,22 +200,27 @@ var Light = (function (_super) {
     Light.Updater = LightUpdater_1.default;
     return Light;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Light;
 
 },{"./LightUpdater":3}],2:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
 var Light_1 = require("./Light");
-var LightMarker = (function (_super) {
+var LightMarker = /** @class */ (function (_super) {
     __extends(LightMarker, _super);
     function LightMarker() {
-        _super.apply(this, arguments);
+        return _super !== null && _super.apply(this, arguments) || this;
     }
     LightMarker.prototype.setType = function (type) {
         if (this.lightMarker != null)
@@ -313,13 +325,13 @@ var LightMarker = (function (_super) {
     };
     return LightMarker;
 }(Light_1.default));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LightMarker;
 
 },{"./Light":1}],3:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
-var LightUpdater = (function () {
+var LightUpdater = /** @class */ (function () {
     function LightUpdater(client, light, config) {
         var _this = this;
         this.client = client;
@@ -438,11 +450,11 @@ var LightUpdater = (function () {
     };
     return LightUpdater;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = LightUpdater;
 
 },{}],4:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var Light_1 = require("./Light");
 var LightMarker_1 = require("./LightMarker");
 SupEngine.registerComponentClass("Light", Light_1.default);

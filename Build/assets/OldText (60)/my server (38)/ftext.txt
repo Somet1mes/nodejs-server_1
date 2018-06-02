@@ -1,0 +1,32 @@
+var express = require('express');
+var app = express();
+var server = require('http').Server(app);
+
+app.get('/' , function(req, res)
+	{
+		res.sendFile(__dirname + '/client/index.html');
+	});
+app.use('/client', express.static(__dirname + '/client'));
+
+server.listen(2000);
+
+
+
+
+
+
+
+
+
+
+
+
+/////////////////package.json
+{
+  "name": "SSO",
+  "version": "1",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  }
+}

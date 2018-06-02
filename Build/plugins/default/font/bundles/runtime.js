@@ -1,5 +1,6 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function setupComponent(player, component, config) {
     component.setText(config.text);
     component.setOptions({ alignment: config.alignment, verticalAlignment: config.verticalAlignment, size: config.size, color: config.color });
@@ -16,6 +17,7 @@ exports.setupComponent = setupComponent;
 
 },{}],2:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function loadAsset(player, entry, callback) {
     player.getAssetData("assets/" + entry.storagePath + "/asset.json", "json", function (err, data) {
         if (data.isBitmap) {
@@ -34,12 +36,12 @@ function loadAsset(player, entry, callback) {
         }
         else {
             data.name = "Font" + entry.id;
-            var font = void 0;
+            var font = void 0 /* FontFace */;
             try {
                 font = new FontFace(data.name, "url(" + player.dataURL + "assets/" + fixedEncodeURIComponent(entry.storagePath) + "/font.dat)");
                 document.fonts.add(font);
             }
-            catch (e) { }
+            catch (e) { /* Ignore */ }
             if (font != null)
                 font.load().then(function () { callback(null, data); }, function () { callback(null, data); });
             else
@@ -50,7 +52,7 @@ function loadAsset(player, entry, callback) {
 exports.loadAsset = loadAsset;
 function fixedEncodeURIComponent(str) {
     return str.split("/").map(function (part) {
-        return encodeURIComponent(part).replace(/[!'()*]/g, function (c) { return ("%" + c.charCodeAt(0).toString(16)); });
+        return encodeURIComponent(part).replace(/[!'()*]/g, function (c) { return "%" + c.charCodeAt(0).toString(16); });
     }).join("/");
 }
 function createOuterAsset(player, asset) { return new window.Sup.Font(asset); }
@@ -58,6 +60,7 @@ exports.createOuterAsset = createOuterAsset;
 
 },{}],3:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var TextRenderer = require("./TextRenderer");
 var font = require("./font");
 SupRuntime.registerPlugin("TextRenderer", TextRenderer);

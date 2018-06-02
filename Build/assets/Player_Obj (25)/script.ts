@@ -6,4 +6,5 @@ class Player_Obj
     x; // the x coord
     y; // the y coord
     animation; // the current animation
+    horzFlip;
   }

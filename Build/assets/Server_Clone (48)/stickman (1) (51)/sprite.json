@@ -1,0 +1,100 @@
+{
+  "formatVersion": 3,
+  "maps": [
+    "map"
+  ],
+  "filtering": "pixelated",
+  "wrapping": "clampToEdge",
+  "pixelsPerUnit": 32,
+  "framesPerSecond": 10,
+  "opacity": null,
+  "alphaTest": 0.1,
+  "frameOrder": "rows",
+  "grid": {
+    "width": 256,
+    "height": 256
+  },
+  "origin": {
+    "x": 0.5,
+    "y": 0.5
+  },
+  "animations": [
+    {
+      "id": "0",
+      "name": "Idle",
+      "startFrameIndex": 0,
+      "endFrameIndex": 5,
+      "speed": 0.5
+    },
+    {
+      "id": "1",
+      "name": "Run",
+      "startFrameIndex": 7,
+      "endFrameIndex": 22,
+      "speed": 2.3
+    },
+    {
+      "id": "2",
+      "name": "Jump",
+      "startFrameIndex": 52,
+      "endFrameIndex": 52,
+      "speed": 0.5
+    },
+    {
+      "id": "3",
+      "name": "Roll",
+      "startFrameIndex": 29,
+      "endFrameIndex": 50,
+      "speed": 3
+    },
+    {
+      "id": "4",
+      "name": "Fall",
+      "startFrameIndex": 52,
+      "endFrameIndex": 52,
+      "speed": 0.5
+    },
+    {
+      "id": "5",
+      "name": "Crouch",
+      "startFrameIndex": 54,
+      "endFrameIndex": 54,
+      "speed": 1
+    },
+    {
+      "id": "6",
+      "name": "Punch",
+      "startFrameIndex": 59,
+      "endFrameIndex": 66,
+      "speed": 2
+    },
+    {
+      "id": "7",
+      "name": "Kick",
+      "startFrameIndex": 69,
+      "endFrameIndex": 86,
+      "speed": 2.5
+    },
+    {
+      "id": "8",
+      "name": "OverAttack",
+      "startFrameIndex": 88,
+      "endFrameIndex": 100,
+      "speed": 2
+    },
+    {
+      "id": "9",
+      "name": "UnderAttack",
+      "startFrameIndex": 102,
+      "endFrameIndex": 111,
+      "speed": 2
+    }
+  ],
+  "mapSlots": {
+    "map": "map",
+    "light": null,
+    "specular": null,
+    "alpha": null,
+    "normal": null
+  }
+}

@@ -1,8 +1,6 @@
-var playerID;
-
 class TextFieldBehavior extends Sup.Behavior {
   
-  text = "HELP";
+  text = "2";
 
   private font: Sup.Font;
   private column = 0;
@@ -10,9 +8,12 @@ class TextFieldBehavior extends Sup.Behavior {
   private cursorWidth: number;
   private blinkTimer = 0;
   static blinkDuration = 20;
-  //serverURL = "http://192.168.1.3:8080;"
-  serverURL = "http://trying-again-trying-again.193b.starter-ca-central-1.openshiftapps.com/";
+  serverURL = "http://127.0.0.1:8080";
+  //serverURL = "http://134.7.115.138:8080";
+  //serverURL = "http://192.168.1.4:8080;"
+  //serverURL = "http://trying-again-trying-again.193b.starter-ca-central-1.openshiftapps.com/";
   socket;
+  
   
   awake() {
     this.font = this.actor.textRenderer.getFont();
@@ -24,6 +25,12 @@ class TextFieldBehavior extends Sup.Behavior {
     this.cursorWidth = this.font.getTextWidth("|");
     
     this.socket = io(this.serverURL);
+    console.log("Connect Thingo");
+    console.log(this.socket);
+    this.socket.on('connect', function(){console.log("connected to server");});
+    this.socket.emit('poops', 1);
+    this.socket.on('poops', function(a){console.log(a)});
+    Globals.setClientSocket(this.socket);
   }
 
   update() {
@@ -49,7 +56,7 @@ class TextFieldBehavior extends Sup.Behavior {
       this.refresh();
     }
     
-    if (Sup.Input.wasKeyJustPressed("ENTER"))
+    if (Sup.Input.wasKeyJustPressed("RETURN"))
       {
         this.checkID(this.text);
       }
@@ -67,6 +74,33 @@ class TextFieldBehavior extends Sup.Behavior {
       this.cursorActor.setVisible(!this.cursorActor.getVisible());
     }
   }
+  
+   checkID(id)
+  {
+    var _self = this;
+    
+    this.socket.emit('checkID', Number(id));
+    console.log(id);
+    console.log(this.socket);
+
+    
+    this.socket.once('returnID', function(idcheck)
+                  {
+      console.log(idcheck);
+      if (idcheck === true)
+        {
+          Globals.setPlayerID(Number(id));
+          //_self.socket.disconnect();
+          Sup.loadScene("Scene");
+        }
+      else
+        {
+          _self.text = "Enter a Unique ID";
+          _self.refresh();
+        }
+    });
+    
+  }
 
   refresh() {
     this.blinkTimer = 0;
@@ -78,25 +112,7 @@ class TextFieldBehavior extends Sup.Behavior {
     this.cursorActor.setLocalX(offset - this.cursorWidth / 2);
   }
   
-  checkID(id)
-  {
-    this.socket.emit('checkID', id);
-    
-    this.socket.on('returnID', function(idcheck)
-                  {
-      if (idcheck === true)
-        {
-          Sup.loadScene("Scene");
-          playerID = id;
-        }
-      else
-        {
-          this.text = "Enter a Unique ID";
-          this.refresh();
-        }
-    })
-    
-  }
+ 
   
 
 }

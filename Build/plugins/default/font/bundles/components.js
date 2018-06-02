@@ -1,18 +1,25 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
 var TextRendererUpdater_1 = require("./TextRendererUpdater");
 var TextRendererGeometry_1 = require("./TextRendererGeometry");
-var TextRenderer = (function (_super) {
+var TextRenderer = /** @class */ (function (_super) {
     __extends(TextRenderer, _super);
     function TextRenderer(actor) {
-        _super.call(this, actor, "TextRenderer");
-        this.threeMeshes = [];
+        var _this = _super.call(this, actor, "TextRenderer") || this;
+        _this.threeMeshes = [];
+        return _this;
     }
     TextRenderer.prototype.setText = function (text) {
         this.text = text;
@@ -218,24 +225,29 @@ var TextRenderer = (function (_super) {
     TextRenderer.Updater = TextRendererUpdater_1.default;
     return TextRenderer;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TextRenderer;
 
 },{"./TextRendererGeometry":2,"./TextRendererUpdater":3}],2:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
-var TextRendererGeometry = (function (_super) {
+var TextRendererGeometry = /** @class */ (function (_super) {
     __extends(TextRendererGeometry, _super);
     function TextRendererGeometry(width, height, widthSegments, heightSegments) {
-        _super.call(this);
-        this.type = "TextRendererGeometry";
-        this.width = width;
-        this.height = height;
+        var _this = _super.call(this) || this;
+        _this.type = "TextRendererGeometry";
+        _this.width = width;
+        _this.height = height;
         var vertices = new Float32Array(widthSegments * heightSegments * 4 * 3);
         var normals = new Float32Array(widthSegments * heightSegments * 4 * 3);
         var uvs = new Float32Array(widthSegments * heightSegments * 4 * 2);
@@ -289,19 +301,20 @@ var TextRendererGeometry = (function (_super) {
                 offset3 += 6;
             }
         }
-        this.setIndex(new THREE.BufferAttribute(indices, 1));
-        this.addAttribute("position", new THREE.BufferAttribute(vertices, 3));
-        this.addAttribute("normal", new THREE.BufferAttribute(normals, 3));
-        this.addAttribute("uv", new THREE.BufferAttribute(uvs, 2));
+        _this.setIndex(new THREE.BufferAttribute(indices, 1));
+        _this.addAttribute("position", new THREE.BufferAttribute(vertices, 3));
+        _this.addAttribute("normal", new THREE.BufferAttribute(normals, 3));
+        _this.addAttribute("uv", new THREE.BufferAttribute(uvs, 2));
+        return _this;
     }
     return TextRendererGeometry;
 }(THREE.BufferGeometry));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TextRendererGeometry;
 
 },{}],3:[function(require,module,exports){
 "use strict";
-var TextRendererUpdater = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var TextRendererUpdater = /** @class */ (function () {
     function TextRendererUpdater(client, textRenderer, config, externalSubscriber) {
         var _this = this;
         this.client = client;
@@ -437,11 +450,11 @@ var TextRendererUpdater = (function () {
     };
     return TextRendererUpdater;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TextRendererUpdater;
 
 },{}],4:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var TextRenderer_1 = require("./TextRenderer");
 SupEngine.registerComponentClass("TextRenderer", TextRenderer_1.default);
 

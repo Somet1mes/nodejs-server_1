@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -15,6 +15,8 @@ for (var i = 0, len = code.length; i < len; ++i) {
   revLookup[code.charCodeAt(i)] = i
 }
 
+// Support decoding URL-safe base64 strings, as Node.js does.
+// See: https://en.wikipedia.org/wiki/Base64#URL_applications
 revLookup['-'.charCodeAt(0)] = 62
 revLookup['_'.charCodeAt(0)] = 63
 
@@ -34,22 +36,22 @@ function placeHoldersCount (b64) {
 
 function byteLength (b64) {
   // base64 is 4/3 + up to two characters of the original data
-  return b64.length * 3 / 4 - placeHoldersCount(b64)
+  return (b64.length * 3 / 4) - placeHoldersCount(b64)
 }
 
 function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
+  var i, l, tmp, placeHolders, arr
   var len = b64.length
   placeHolders = placeHoldersCount(b64)
 
-  arr = new Arr(len * 3 / 4 - placeHolders)
+  arr = new Arr((len * 3 / 4) - placeHolders)
 
   // if there are placeholders, only get up to the last complete 4 chars
   l = placeHolders > 0 ? len - 4 : len
 
   var L = 0
 
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+  for (i = 0; i < l; i += 4) {
     tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
     arr[L++] = (tmp >> 16) & 0xFF
     arr[L++] = (tmp >> 8) & 0xFF
@@ -76,7 +78,7 @@ function encodeChunk (uint8, start, end) {
   var tmp
   var output = []
   for (var i = start; i < end; i += 3) {
-    tmp = (uint8[i] << 16) + (uint8[i + 1] << 8) + (uint8[i + 2])
+    tmp = ((uint8[i] << 16) & 0xFF0000) + ((uint8[i + 1] << 8) & 0xFF00) + (uint8[i + 2] & 0xFF)
     output.push(tripletToBase64(tmp))
   }
   return output.join('')
@@ -1921,7 +1923,7 @@ module.exports = Array.isArray || function (arr) {
 },{}],6:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
-  var eLen = nBytes * 8 - mLen - 1
+  var eLen = (nBytes * 8) - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var nBits = -7
@@ -1934,12 +1936,12 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   e = s & ((1 << (-nBits)) - 1)
   s >>= (-nBits)
   nBits += eLen
-  for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; e = (e * 256) + buffer[offset + i], i += d, nBits -= 8) {}
 
   m = e & ((1 << (-nBits)) - 1)
   e >>= (-nBits)
   nBits += mLen
-  for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {}
+  for (; nBits > 0; m = (m * 256) + buffer[offset + i], i += d, nBits -= 8) {}
 
   if (e === 0) {
     e = 1 - eBias
@@ -1954,7 +1956,7 @@ exports.read = function (buffer, offset, isLE, mLen, nBytes) {
 
 exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   var e, m, c
-  var eLen = nBytes * 8 - mLen - 1
+  var eLen = (nBytes * 8) - mLen - 1
   var eMax = (1 << eLen) - 1
   var eBias = eMax >> 1
   var rt = (mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0)
@@ -1987,7 +1989,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
       m = 0
       e = eMax
     } else if (e + eBias >= 1) {
-      m = (value * c - 1) * Math.pow(2, mLen)
+      m = ((value * c) - 1) * Math.pow(2, mLen)
       e = e + eBias
     } else {
       m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen)
@@ -2403,6 +2405,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -2790,11 +2796,19 @@ Object.defineProperty(exports, 'mapFileCommentRegex', {
 var fs = require('fs');
 var path = require('path');
 
-var commentRx = /^\s*\/(?:\/|\*)[@#]\s+sourceMappingURL=data:(?:application|text)\/json;(?:charset[:=]\S+;)?base64,(.*)$/mg;
-var mapFileCommentRx =
-  //Example (Extra space between slashes added to solve Safari bug. Exclude space in production):
-  //     / /# sourceMappingURL=foo.js.map           
-  /(?:\/\/[@#][ \t]+sourceMappingURL=([^\s'"]+?)[ \t]*$)|(?:\/\*[@#][ \t]+sourceMappingURL=([^\*]+?)[ \t]*(?:\*\/){1}[ \t]*$)/mg
+Object.defineProperty(exports, 'commentRegex', {
+  get: function getCommentRegex () {
+    return /^\s*\/(?:\/|\*)[@#]\s+sourceMappingURL=data:(?:application|text)\/json;(?:charset[:=]\S+?;)?base64,(?:.*)$/mg;
+  }
+});
+
+Object.defineProperty(exports, 'mapFileCommentRegex', {
+  get: function getMapFileCommentRegex () {
+    // Matches sourceMappingURL in either // or /* comment styles.
+    return /(?:\/\/[@#][ \t]+sourceMappingURL=([^\s'"`]+?)[ \t]*$)|(?:\/\*[@#][ \t]+sourceMappingURL=([^\*]+?)[ \t]*(?:\*\/){1}[ \t]*$)/mg;
+  }
+});
+
 
 function decodeBase64(base64) {
   return new Buffer(base64, 'base64').toString();
@@ -2807,8 +2821,7 @@ function stripComment(sm) {
 function readFromFileMap(sm, dir) {
   // NOTE: this will only work on the server since it attempts to read the map file
 
-  var r = mapFileCommentRx.exec(sm);
-  mapFileCommentRx.lastIndex = 0;
+  var r = exports.mapFileCommentRegex.exec(sm);
 
   // for some odd reason //# .. captures in 1 and /* .. */ in 2
   var filename = r[1] || r[2];
@@ -2832,16 +2845,6 @@ function Converter (sm, opts) {
   this.sourcemap = sm;
 }
 
-function convertFromLargeSource(content){
-  var lines = content.split('\n');
-  var line;
-  // find first line which contains a source map starting at end of content
-  for (var i = lines.length - 1; i > 0; i--) {
-    line = lines[i]
-    if (~line.indexOf('sourceMappingURL=data:')) return exports.fromComment(line);
-  }
-}
-
 Converter.prototype.toJSON = function (space) {
   return JSON.stringify(this.sourcemap, null, space);
 };
@@ -2853,7 +2856,7 @@ Converter.prototype.toBase64 = function () {
 
 Converter.prototype.toComment = function (options) {
   var base64 = this.toBase64();
-  var data = 'sourceMappingURL=data:application/json;base64,' + base64;
+  var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
   return options && options.multiline ? '/*# ' + data + ' */' : '//# ' + data;
 };
 
@@ -2863,7 +2866,7 @@ Converter.prototype.toObject = function () {
 };
 
 Converter.prototype.addProperty = function (key, value) {
-  if (this.sourcemap.hasOwnProperty(key)) throw new Error('property %s already exists on the sourcemap, use set property instead');
+  if (this.sourcemap.hasOwnProperty(key)) throw new Error('property "' + key + '" already exists on the sourcemap, use set property instead');
   return this.setProperty(key, value);
 };
 
@@ -2901,52 +2904,29 @@ exports.fromMapFileComment = function (comment, dir) {
 };
 
 // Finds last sourcemap comment in file or returns null if none was found
-exports.fromSource = function (content, largeSource) {
-  if (largeSource) {
-    var res = convertFromLargeSource(content);
-    return res ? res : null;
-  }
-
-  var m = content.match(commentRx);
-  commentRx.lastIndex = 0;
+exports.fromSource = function (content) {
+  var m = content.match(exports.commentRegex);
   return m ? exports.fromComment(m.pop()) : null;
 };
 
 // Finds last sourcemap comment in file or returns null if none was found
 exports.fromMapFileSource = function (content, dir) {
-  var m = content.match(mapFileCommentRx);
-  mapFileCommentRx.lastIndex = 0;
+  var m = content.match(exports.mapFileCommentRegex);
   return m ? exports.fromMapFileComment(m.pop(), dir) : null;
 };
 
 exports.removeComments = function (src) {
-  commentRx.lastIndex = 0;
-  return src.replace(commentRx, '');
+  return src.replace(exports.commentRegex, '');
 };
 
 exports.removeMapFileComments = function (src) {
-  mapFileCommentRx.lastIndex = 0;
-  return src.replace(mapFileCommentRx, '');
+  return src.replace(exports.mapFileCommentRegex, '');
 };
 
 exports.generateMapFileComment = function (file, options) {
   var data = 'sourceMappingURL=' + file;
   return options && options.multiline ? '/*# ' + data + ' */' : '//# ' + data;
 };
-
-Object.defineProperty(exports, 'commentRegex', {
-  get: function getCommentRegex () {
-    commentRx.lastIndex = 0;
-    return commentRx;
-  }
-});
-
-Object.defineProperty(exports, 'mapFileCommentRegex', {
-  get: function getMapFileCommentRegex () {
-    mapFileCommentRx.lastIndex = 0;
-    return mapFileCommentRx;
-  }
-});
 
 }).call(this,require("buffer").Buffer)
 },{"buffer":4,"fs":3,"path":7}],14:[function(require,module,exports){
@@ -3267,6 +3247,7 @@ module.exports = memoize;
 
 var util = require('./util');
 var has = Object.prototype.hasOwnProperty;
+var hasNativeMap = typeof Map !== "undefined";
 
 /**
  * A data structure which is a combination of an array and a set. Adding a new
@@ -3276,7 +3257,7 @@ var has = Object.prototype.hasOwnProperty;
  */
 function ArraySet() {
   this._array = [];
-  this._set = Object.create(null);
+  this._set = hasNativeMap ? new Map() : Object.create(null);
 }
 
 /**
@@ -3297,7 +3278,7 @@ ArraySet.fromArray = function ArraySet_fromArray(aArray, aAllowDuplicates) {
  * @returns Number
  */
 ArraySet.prototype.size = function ArraySet_size() {
-  return Object.getOwnPropertyNames(this._set).length;
+  return hasNativeMap ? this._set.size : Object.getOwnPropertyNames(this._set).length;
 };
 
 /**
@@ -3306,14 +3287,18 @@ ArraySet.prototype.size = function ArraySet_size() {
  * @param String aStr
  */
 ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
-  var sStr = util.toSetString(aStr);
-  var isDuplicate = has.call(this._set, sStr);
+  var sStr = hasNativeMap ? aStr : util.toSetString(aStr);
+  var isDuplicate = hasNativeMap ? this.has(aStr) : has.call(this._set, sStr);
   var idx = this._array.length;
   if (!isDuplicate || aAllowDuplicates) {
     this._array.push(aStr);
   }
   if (!isDuplicate) {
-    this._set[sStr] = idx;
+    if (hasNativeMap) {
+      this._set.set(aStr, idx);
+    } else {
+      this._set[sStr] = idx;
+    }
   }
 };
 
@@ -3323,8 +3308,12 @@ ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
  * @param String aStr
  */
 ArraySet.prototype.has = function ArraySet_has(aStr) {
-  var sStr = util.toSetString(aStr);
-  return has.call(this._set, sStr);
+  if (hasNativeMap) {
+    return this._set.has(aStr);
+  } else {
+    var sStr = util.toSetString(aStr);
+    return has.call(this._set, sStr);
+  }
 };
 
 /**
@@ -3333,10 +3322,18 @@ ArraySet.prototype.has = function ArraySet_has(aStr) {
  * @param String aStr
  */
 ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
-  var sStr = util.toSetString(aStr);
-  if (has.call(this._set, sStr)) {
-    return this._set[sStr];
+  if (hasNativeMap) {
+    var idx = this._set.get(aStr);
+    if (idx >= 0) {
+        return idx;
+    }
+  } else {
+    var sStr = util.toSetString(aStr);
+    if (has.call(this._set, sStr)) {
+      return this._set[sStr];
+    }
   }
+
   throw new Error('"' + aStr + '" is not in the set.');
 };
 
@@ -5230,6 +5227,18 @@ SourceMapGenerator.prototype.applySourceMap =
 SourceMapGenerator.prototype._validateMapping =
   function SourceMapGenerator_validateMapping(aGenerated, aOriginal, aSource,
                                               aName) {
+    // When aOriginal is truthy but has empty values for .line and .column,
+    // it is most likely a programmer error. In this case we throw a very
+    // specific error message to try to guide them the right way.
+    // For example: https://github.com/Polymer/polymer-bundler/pull/519
+    if (aOriginal && typeof aOriginal.line !== 'number' && typeof aOriginal.column !== 'number') {
+        throw new Error(
+            'original.line and original.column are not numbers -- you probably meant to omit ' +
+            'the original mapping entirely and only map the generated position. If so, pass ' +
+            'null for the original mapping instead of an object with empty or null values.'
+        );
+    }
+
     if (aGenerated && 'line' in aGenerated && 'column' in aGenerated
         && aGenerated.line > 0 && aGenerated.column >= 0
         && !aOriginal && !aSource && !aName) {
@@ -5437,13 +5446,19 @@ SourceNode.fromStringWithSourceMap =
     // All even indices of this array are one line of the generated code,
     // while all odd indices are the newlines between two adjacent lines
     // (since `REGEX_NEWLINE` captures its match).
-    // Processed fragments are removed from this array, by calling `shiftNextLine`.
+    // Processed fragments are accessed by calling `shiftNextLine`.
     var remainingLines = aGeneratedCode.split(REGEX_NEWLINE);
+    var remainingLinesIndex = 0;
     var shiftNextLine = function() {
-      var lineContents = remainingLines.shift();
+      var lineContents = getNextLine();
       // The last line of a file might not have a newline.
-      var newLine = remainingLines.shift() || "";
+      var newLine = getNextLine() || "";
       return lineContents + newLine;
+
+      function getNextLine() {
+        return remainingLinesIndex < remainingLines.length ?
+            remainingLines[remainingLinesIndex++] : undefined;
+      }
     };
 
     // We need to remember the position of "remainingLines"
@@ -5468,10 +5483,10 @@ SourceNode.fromStringWithSourceMap =
           // There is no new line in between.
           // Associate the code between "lastGeneratedColumn" and
           // "mapping.generatedColumn" with "lastMapping"
-          var nextLine = remainingLines[0];
+          var nextLine = remainingLines[remainingLinesIndex];
           var code = nextLine.substr(0, mapping.generatedColumn -
                                         lastGeneratedColumn);
-          remainingLines[0] = nextLine.substr(mapping.generatedColumn -
+          remainingLines[remainingLinesIndex] = nextLine.substr(mapping.generatedColumn -
                                               lastGeneratedColumn);
           lastGeneratedColumn = mapping.generatedColumn;
           addMappingWithCode(lastMapping, code);
@@ -5488,21 +5503,21 @@ SourceNode.fromStringWithSourceMap =
         lastGeneratedLine++;
       }
       if (lastGeneratedColumn < mapping.generatedColumn) {
-        var nextLine = remainingLines[0];
+        var nextLine = remainingLines[remainingLinesIndex];
         node.add(nextLine.substr(0, mapping.generatedColumn));
-        remainingLines[0] = nextLine.substr(mapping.generatedColumn);
+        remainingLines[remainingLinesIndex] = nextLine.substr(mapping.generatedColumn);
         lastGeneratedColumn = mapping.generatedColumn;
       }
       lastMapping = mapping;
     }, this);
     // We have processed all mappings.
-    if (remainingLines.length > 0) {
+    if (remainingLinesIndex < remainingLines.length) {
       if (lastMapping) {
         // Associate the remaining code in the current line with "lastMapping"
         addMappingWithCode(lastMapping, shiftNextLine());
       }
       // and add the remaining lines without any mapping
-      node.add(remainingLines.join(""));
+      node.add(remainingLines.splice(remainingLinesIndex).join(""));
     }
 
     // Copy sourcesContent into SourceNode
@@ -61031,6 +61046,7 @@ var toolsVersion = "1.8";
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},"/node_modules/typescript/lib/typescript.js",arguments[3],arguments[4],arguments[5],arguments[6],"/node_modules/typescript/lib")
 },{"_process":8,"fs":2,"os":2,"path":2}],28:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function setupComponent(player, component, config) {
     if (config.propertyValues == null)
         return;
@@ -61046,12 +61062,12 @@ function setupComponent(player, component, config) {
             ancestorBehaviorInfo = player.resources.behaviorProperties.behaviors[ancestorBehaviorInfo.parentBehavior];
         }
         if (behaviorPropertyInfo == null) {
-            console.warn(("Tried to set a property named " + name_1 + " on behavior class " + component.__outer.constructor.name + " ") +
+            console.warn("Tried to set a property named " + name_1 + " on behavior class " + component.__outer.constructor.name + " " +
                 "but no such property is declared. Skipping.");
             continue;
         }
         if (behaviorPropertyInfo.type !== valueInfo.type) {
-            console.warn(("Tried to set a value of type " + valueInfo.type + " for property " + component.__outer.constructor.name + "." + name_1 + " ") +
+            console.warn("Tried to set a value of type " + valueInfo.type + " for property " + component.__outer.constructor.name + "." + name_1 + " " +
                 ("but property type is declared as " + behaviorPropertyInfo.type + ". Skipping."));
             continue;
         }
@@ -61079,6 +61095,7 @@ exports.setupComponent = setupComponent;
 
 },{}],29:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function loadResource(player, resourceName, callback) {
     player.getAssetData("resources/" + resourceName + "/resource.json", "json", function (err, data) {
         if (err != null) {
@@ -61100,6 +61117,7 @@ exports.loadResource = loadResource;
 
 },{}],30:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var ts = require("typescript");
 function compileTypeScript(sourceFileNames, sourceFiles, libSource, compilerOptions) {
     if (compilerOptions === void 0) { compilerOptions = {}; }
@@ -61127,7 +61145,7 @@ function compileTypeScript(sourceFileNames, sourceFiles, libSource, compilerOpti
             if (name.slice(name.length - 4) === ".map") {
                 name = name.slice(0, name.length - 7);
                 var sourceMap_1 = JSON.parse(text);
-                sourceMap_1.sourcesContent = [sourceFiles[(name + ".ts")]];
+                sourceMap_1.sourcesContent = [sourceFiles[name + ".ts"]];
                 sourceMaps[name] = sourceMap_1;
             }
             else {
@@ -61181,11 +61199,11 @@ function compileTypeScript(sourceFileNames, sourceFiles, libSource, compilerOpti
         program: program, typeChecker: typeChecker, script: script, sourceMaps: sourceMaps, files: files
     };
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = compileTypeScript;
 
 },{"typescript":27}],31:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var script = require("./script");
 var Behavior = require("./Behavior");
 var behaviorProperties = require("./behaviorProperties");
@@ -61194,8 +61212,9 @@ SupRuntime.registerPlugin("Behavior", Behavior);
 SupRuntime.registerResource("behaviorProperties", behaviorProperties);
 
 },{"./Behavior":28,"./behaviorProperties":29,"./script":32}],32:[function(require,module,exports){
-/// <reference path="../../typescript/typescriptAPI/TypeScriptAPIPlugin.d.ts" />
 "use strict";
+/// <reference path="../../typescript/typescriptAPI/TypeScriptAPIPlugin.d.ts" />
+Object.defineProperty(exports, "__esModule", { value: true });
 var convert = require("convert-source-map");
 // No definition file for combine-source-map module
 /* tslint:disable */
@@ -61219,7 +61238,7 @@ function init(player, callback) {
         if (type === "Behavior") {
             var behaviorClass = player.behaviorClasses[config.behaviorName];
             if (behaviorClass == null) {
-                throw new Error(("Could not find a behavior class named \"" + config.behaviorName + "\" for actor \"" + actor.getName() + "\". ") +
+                throw new Error("Could not find a behavior class named \"" + config.behaviorName + "\" for actor \"" + actor.getName() + "\". " +
                     "Make sure you're using the class name, not the script's name and that the class is declared " +
                     "before the behavior component is created (or before the scene is loaded).");
             }
@@ -61241,10 +61260,10 @@ function init(player, callback) {
         var plugin = plugins[pluginName];
         if (plugin.code != null) {
             globalNames.push(pluginName + ".ts");
-            globals[(pluginName + ".ts")] = plugin.code;
+            globals[pluginName + ".ts"] = plugin.code;
         }
         if (plugin.defs != null)
-            globalDefs[(pluginName + ".d.ts")] = plugin.defs;
+            globalDefs[pluginName + ".d.ts"] = plugin.defs;
         if (plugin.exposeActorComponent != null)
             actorComponentAccessors.push(plugin.exposeActorComponent.propertyName + ": " + plugin.exposeActorComponent.className + ";");
     }
@@ -61314,7 +61333,7 @@ exports.start = start;
 function loadAsset(player, entry, callback) {
     scriptNames.push(entry.path + ".ts");
     player.getAssetData("assets/" + entry.storagePath + "/script.ts", "text", function (err, script) {
-        scripts[(entry.path + ".ts")] = script + "\n";
+        scripts[entry.path + ".ts"] = script + "\n";
         callback(null, script);
     });
 }

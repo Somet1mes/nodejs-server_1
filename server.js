@@ -24,9 +24,16 @@ Alright guys this is how this is gonna go down
 "use strict";
 
 //other classes
-const hitbox = require('./hitbox.js');
-var SupEngine = require('./Build/SupEngine.js');
-var THREE = SupEngine.THREE;
+const Hitbox = require('./ts-built/Game/Hitbox.js');
+//var Sup = require('./Build')
+//var SupCore = require('./Build/SupCore.js');
+//var SupEngine = require('./Build/SupEngine.js');
+//var Arcade2DPhysicsNEW = require("./Build/plugins/default/arcadePhysics2D/bundles/components.js")
+//var SupRuntime = require('./Build/SupRuntime.js');
+//var THREE = SupEngine.THREE;
+var Status_Effect = require('./ts-built/Game/Player/Status_Effect.js');
+var Game = require('./ts-built/Game/Game.js');
+var Player = require('./ts-built/Game/Player/Player.js');
 
 // Socket Server
 var express = require('express');
@@ -47,16 +54,20 @@ var pool = mysql.createPool(
         database: "sso"
     });
 
-
-
 var server_port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
 var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
 
 
+// Non-connection based variables
+
+
 // An array to store all of the players currently
 var playerStack = [];
+var game_1 = new Game();
 
 
+
+// Serve the client files in build so the index.html can access them
 app.use(express.static(__dirname + '/Build'));
 
 // Deliver the index.html file to whoever acceses
@@ -78,20 +89,32 @@ io.on('connection', onConnection);
 function onConnection(socket)
 {
 
-    var initPlayer = false;
+    //var initPlayer = false;
 
     console.log('A user has connected');
+
+    socket.on('poops', function(a){console.log("poops", a);})
+    socket.emit('poops', 13);
 
     socket.on('checkID',
         function(id)
         {
+            console.log(id);
+            console.log(typeof id);
             var check = true;
-            for (var i = 1; i < playerstack.length -1; i++)
+            if (typeof id === "number")
             {
-                if (id === playerstack[i].playerID)
+                for (var i = 1; i < playerStack.length -1; i++)
                 {
-                    check = false;
+                    if (id === playerstack[i].playerID)
+                    {
+                        check = false;
+                    }
                 }
+            }
+            else
+            {
+                check = false;
             }
             socket.emit('returnID', check);
         });
@@ -100,42 +123,53 @@ function onConnection(socket)
     socket.on('Initialise Player', 
         function(playerID)
         {
-            socket.playerID = playerID;
+            console.log("player added", playerID);
+            //socket.playerID = playerID;
+            socket.player = new Player(); //create a new Player to store every thing about the player
+            socket.player.playerID = playerID;
+            playerStack.push(socket.player);
+            console.log(playerStack);
+            playerStackSort();
+            socket.emit('Player Initialised');
+            // Get the values for the actor from the database given the playerID
+            /*
+            pool.getConnection(
+                function(err, connection)
+                {
+                    if (err)
+                    {
+                        console.log("error connecting to database");
+                        console.log(err);
+                    }
+                    else
+                    {
+                        connection.query("SELECT * from playerstats where playerID" + socket.playerID, 
+                        function(err, row)
+                        {
+                            console.log(row);
+                        });
+                    }
+
+                });
+                */
         });
     //socket.name = "test";
-    socket.actor = new Actor(); //create a new actor to store every thing about the player
+    
 
-    // Get the values for the actor from the database given the playerID
-    pool.getConnection(
-        function(err, connection)
-        {
-            if (err)
-            {
-                console.log("error connecting to database");
-                console.log(err);
-            }
-            else
-            {
-                connection.query("SELECT * from playerstats where playerID" + socket.playerID, 
-                function(err, row)
-                {
-                    console.log(row);
-                });
-            }
-
-        });
+    
 
     // Whenever the player presses a key
     socket.on("keyPress",
         function(input)
         {
-            onKeyPress(socket.actor, input);
+            onKeyPress(socket.player, input);
+            console.log(input);
         });
     // Whenever the player releases a key
     socket.on("keyRelease",
         function(input)
         {
-            onKeyRelease(socket.actor, input);
+            onKeyRelease(socket.player, input);
         });
     
 
@@ -200,6 +234,7 @@ function onConnection(socket)
     ); //end on disconnect
 
 
+
 }
 
 // For sorting the playerstack by playerID
@@ -228,7 +263,7 @@ function tick()
 
     for (var i = playerStack.length - 1; i >= 0; i--) 
     {
-        updatedPlayer(playerStack[i]); // Update everything to with each player
+        game_1.updatePlayer(playerStack[i]); // Update everything to with each player
     }
 
     // Only send updates to the clients every 5 server ticks
@@ -254,256 +289,4 @@ server.listen(server_port, server_ip_address,
 
 
 
-/*************************************************************************
 
-    Functions to do with game mechanics
-
-***************************************************************************/
-
-var gravityY = -0.2;
-var gravityX = 0;
-
-function Actor()
-{
-
-    // Stats
-    this.HP = 0;
-    this.mana = 0;
-    this.agility = 0;
-    this.defence = 0;
-    this.AP = 0;
-    this.AD = 0;
-
-    //Keys
-    this.key_Array = []
-    this.key_LEFT = new Key();
-    this.key_Array.push(this.key_LEFT);
-    this.key_RIGHT = new Key();
-    this.key_Array.push(this.key_RIGHT);
-    this.key_UP = new Key();
-    this.key_Array.push(this.key_UP);
-    this.key_DOWN = new Key();
-    this.key_Array.push(this.key_DOWN);
-
-    //Sprite + Animation
-    this.animation = "Idle"
-    this.horzFlip = false;
-
-
-    // Not actual stats
-    this.velocityX = 0;
-    this.velocityY = 0;
-    this.x = 0;
-    this.y = 0;
-    this.direction = "left";
-    this.animation = "idle";
-    this.moveSpeed = 0;
-    this.rollSpeed = 0;
-    this.jumpSpeed = 0;
-
-
-
-    // Hit box
-    this.hitbox = new hitbox(1,1,1,1);
-
-}
-
-function Key()
-{
-    this.active = false;
-    this.wasJustPressed = false;
-    this.wasJustReleased = false;
-    this.prev = false; //false = up true = down
-}
-
-
-function updatePlayer(player)
-{
-
-    //Do key state changes
-    for (var i = 0; i < player.key_Array.length; i++)
-    {
-
-        player.key_Array[i].wasJustPressed = false;
-        player.key_Array[i].wasJustReleased = false;
-        if (player.key_Array[i].prev !== player.key_Array[i].active)
-        {
-            if (player.key_Array[i].active === false)
-            {
-                player.key_Array[i].wasJustReleased = true;
-            }
-            else
-            {
-                player.key_Array[i].wasJustPressed = true;
-            }
-        }
-        player.key_Array[i].prev = player.key_Array[i].active;
-    }
-
-    playerMovements(player);
-
-    // Apply gravity
-    player.velocityY += gravityY;
-    plaeyr.velocityX += gravityX;
-
-    // Update position
-    player.x += player.velocityX;
-    player.y += player.velocityY;
-}
-
-
-function onKeyPress(player, input)
-{
-    switch(input)
-    {
-        case "UP":
-            player.key_UP.active =true;
-            break;
-        case "DOWN":
-            player.key_DOWN.active =true;
-            break;
-        case "LEFT":
-            player.key_LEFT.active =true;
-            break;
-        case "RIGHT":
-            player.key_RIGHT.active =true;
-            break;
-        default:
-            console.log("Unrecognised key Release");
-            break;
-    }
-}
-
-function onKeyRelease(player, input)
-{
-    switch(input)
-    {
-        case "UP":
-            player.key_UP.active =false;
-            break;
-        case "DOWN":
-            player.key_DOWN.active =false;
-            break;
-        case "LEFT":
-            player.key_LEFT.active =false;
-            break;
-        case "RIGHT":
-            player.key_RIGHT.active =false;
-            break;
-        default:
-            console.log("Unrecognised key Release");
-            break;
-    }
-}
-
-function playerMovements(player)
-{
-    if (player.rollStatus.getActive() === false)
-      {
-        //check velocity so player cant roll while in the air
-        if (player.key_LEFT.active && player.key_DOWN.wasJustPressed && player.velocityY === 0) //roll to the left
-          {
-            player.velocityX = -player.rollSpeed; //set the velocity 
-            player.horzFlip = true;
-            player.animation = "Roll";
-            player.rollStatus.setTimeRemaining(player.rollDuration); //Setting the duration sets the effect to active
-
-
-            
-          }
-        else if (player.key_RIGHT.active && player.key_DOWN.wasJustPressed && player.velocityY === 0)
-          {
-            player.velocityX = player.rollSpeed;
-            player.horzFlip = false;
-            player.animation = "Roll";
-            player.rollStatus.setTimeRemaining(player.rollDuration);
-
-          }
-
-          // We override the `.x` component based on the player's input
-        else if (player.key_LEFT.active) {
-          player.velocityX = -player.moveSpeed;
-          // When going left, we flip the sprite
-          player.horzFlip = true;
-          player.animation = "Run";
-          
-
-          
-        } else if (player.key_RIGTH.active) {
-          player.velocityX = player.moveSpeed;
-          // When going right, we clear the flip
-          player.horzFlip = false;
-          player.animation = "Run";
-
-        } else player.velocityX = 0;
-
-        // If the player is on the ground and wants to jump,
-        // we update the `.y` component accordingly
-        let touchBottom = player.actor.arcadeBody2D.getTouches().bottom;
-        if (touchBottom) 
-        {
-          if (player.key_UP.wasJustPressed) 
-          {
-            player.velocityY = player.jumpSpeed;
-            player.animation = "Jump";
-
-          } 
-          else 
-          {
-            // Here, we should play either "Idle" or "Run" depending on the horizontal speed
-            if (player.velocityX === 0) player.animation = "Idle"
-            //else player.animation
-          }
-        } 
-        else 
-        {
-          // Here, we should play either "Jump" or "Fall" depending on the vertical speed
-          if (player.velocityY >= 0) player.animation = "Jump";
-          else player.animation = "Fall"
-        }
-      }
-
-}
-
-function move(player, dir)
-{
-    switch(dir)
-    {
-        case "left":
-            player.velocityX = -player.moveSpeed;
-            player.direction = "left";
-            break;
-        case "right":
-            player.velocityX = -player.moveSpeed;
-            player.direction = "right";
-            break;
-        default:
-            player.velocityX = 0;
-            break;
-    }
-
-    player.animation = "run";
-}
-
-function jump(player)
-{
-    player.velocityY = player.jumpSpeed;
-    player.animation = "jump";
-}
-
-function roll(player, dir)
-{
-    switch(dir)
-    {
-        case "left":
-            player.velocityX = -player.rollSpeed;
-            player.direction = "left";
-            break;
-        case "right":
-            player.velocityX = player.rollSpeed;
-            player.direction = "left";
-            break;
-    }
-
-    player.animation = "roll";
-}

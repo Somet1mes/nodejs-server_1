@@ -1,5 +1,6 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.SupRuntime = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.SupRuntime = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function fetch(url, type, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
@@ -17,7 +18,6 @@ function fetch(url, type, callback) {
     };
     xhr.send();
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = fetch;
 ;
 
@@ -1461,6 +1461,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -1653,9 +1657,10 @@ exports.encode = exports.stringify = require('./encode');
 
 },{"./decode":4,"./encode":5}],7:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var async = require("async");
 var fetch_1 = require("../../../../SupClient/fetch");
-var Player = (function () {
+var Player = /** @class */ (function () {
     function Player(canvas, dataURL, options) {
         var _this = this;
         this.entriesById = {};
@@ -1871,22 +1876,20 @@ var Player = (function () {
     Player.prototype.createComponent = function () { throw new Error("Player.createComponent should be defined by a scripting plugin"); };
     return Player;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Player;
 
 },{"../../../../SupClient/fetch":1,"async":2}],8:[function(require,module,exports){
 (function (global){
+"use strict";
 /// <reference path="../SupRuntime.d.ts" />
 /// <reference path="../../../../SupCore/SupCore.d.ts" />
 /// <reference path="../../../../SupClient/typings/SupApp.d.ts" />
-"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var async = require("async");
 var querystring = require("querystring");
 var fetch_1 = require("../../../../SupClient/fetch");
 var Player_1 = require("./Player");
 exports.Player = Player_1.default;
-// Any export here will be exposed as SupRuntime.* by browserify
-// (see ../gulpfile.js)
 exports.plugins = {};
 exports.resourcePlugins = {};
 function registerPlugin(name, plugin) {
@@ -1913,6 +1916,7 @@ if (global.SupApp == null) {
         global.SupApp = (top.SupApp != null) ? top.SupApp : null;
     }
     catch (err) {
+        /* Ignore */
     }
 }
 // In app, open links in a browser window
@@ -1926,7 +1930,7 @@ else {
     try {
         electron = nodeRequire("electron");
     }
-    catch (e) { }
+    catch (e) { /* Ignore */ }
     if (electron != null)
         playerWindow = electron.remote.getCurrentWindow();
 }

@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -304,17 +304,23 @@ function isUndefined(arg) {
 
 },{}],2:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
-var TileLayerGeometry = (function (_super) {
+var TileLayerGeometry = /** @class */ (function (_super) {
     __extends(TileLayerGeometry, _super);
     function TileLayerGeometry(width, height, widthSegments, heightSegments) {
-        _super.call(this);
-        this.type = "TileLayerGeometry";
+        var _this = _super.call(this) || this;
+        _this.type = "TileLayerGeometry";
         var vertices = new Float32Array(widthSegments * heightSegments * 4 * 3);
         var normals = new Float32Array(widthSegments * heightSegments * 4 * 3);
         var uvs = new Float32Array(widthSegments * heightSegments * 4 * 2);
@@ -359,29 +365,36 @@ var TileLayerGeometry = (function (_super) {
                 indicesOffset += 6;
             }
         }
-        this.setIndex(new THREE.BufferAttribute(indices, 1));
-        this.addAttribute("position", new THREE.BufferAttribute(vertices, 3));
-        this.addAttribute("normal", new THREE.BufferAttribute(normals, 3));
-        this.addAttribute("uv", new THREE.BufferAttribute(uvs, 2));
+        _this.setIndex(new THREE.BufferAttribute(indices, 1));
+        _this.addAttribute("position", new THREE.BufferAttribute(vertices, 3));
+        _this.addAttribute("normal", new THREE.BufferAttribute(normals, 3));
+        _this.addAttribute("uv", new THREE.BufferAttribute(uvs, 2));
+        return _this;
     }
     return TileLayerGeometry;
 }(THREE.BufferGeometry));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TileLayerGeometry;
 
 },{}],3:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
-var TileMap = (function (_super) {
+var TileMap = /** @class */ (function (_super) {
     __extends(TileMap, _super);
     function TileMap(data) {
-        _super.call(this);
-        this.data = data;
+        var _this = _super.call(this) || this;
+        _this.data = data;
+        return _this;
     }
     TileMap.prototype.getWidth = function () { return this.data.width; };
     TileMap.prototype.getHeight = function () { return this.data.height; };
@@ -404,29 +417,34 @@ var TileMap = (function (_super) {
     };
     return TileMap;
 }(events_1.EventEmitter));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TileMap;
 
 },{"events":1}],4:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
 
 var TileLayerGeometry_1 = require("./TileLayerGeometry");
 var TileMapRendererUpdater_1 = require("./TileMapRendererUpdater");
-var TileMapRenderer = (function (_super) {
+var TileMapRenderer = /** @class */ (function (_super) {
     __extends(TileMapRenderer, _super);
     function TileMapRenderer(actor) {
-        var _this = this;
-        _super.call(this, actor, "TileMapRenderer");
-        this.castShadow = false;
-        this.receiveShadow = false;
-        this.materialType = "basic";
-        this.onSetTileAt = function (layerIndex, x, y) { _this.refreshTileAt(layerIndex, x, y); };
+        var _this = _super.call(this, actor, "TileMapRenderer") || this;
+        _this.castShadow = false;
+        _this.receiveShadow = false;
+        _this.materialType = "basic";
+        _this.onSetTileAt = function (layerIndex, x, y) { _this.refreshTileAt(layerIndex, x, y); };
+        return _this;
     }
     TileMapRenderer.prototype.setTileMap = function (asset, materialType, customShader) {
         if (this.layerMeshes != null)
@@ -682,14 +700,14 @@ var TileMapRenderer = (function (_super) {
     TileMapRenderer.Updater = TileMapRendererUpdater_1.default;
     return TileMapRenderer;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TileMapRenderer;
 
 },{"./TileLayerGeometry":2,"./TileMapRendererUpdater":5}],5:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var TileMap_1 = require("./TileMap");
 var TileSet_1 = require("./TileSet");
-var TileMapRendererUpdater = (function () {
+var TileMapRendererUpdater = /** @class */ (function () {
     function TileMapRendererUpdater(client, tileMapRenderer, config, externalSubscribers) {
         var _this = this;
         this.client = client;
@@ -906,44 +924,50 @@ var TileMapRendererUpdater = (function () {
     };
     return TileMapRendererUpdater;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TileMapRendererUpdater;
 
 },{"./TileMap":3,"./TileSet":6}],6:[function(require,module,exports){
 "use strict";
-var TileSet = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var TileSet = /** @class */ (function () {
     function TileSet(data) {
         this.data = data;
     }
     return TileSet;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TileSet;
 
 },{}],7:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
 var TileSetRendererUpdater_1 = require("./TileSetRendererUpdater");
-var TileSetRenderer = (function (_super) {
+var TileSetRenderer = /** @class */ (function (_super) {
     __extends(TileSetRenderer, _super);
     function TileSetRenderer(actor, asset) {
-        _super.call(this, actor, "TileSetRenderer");
-        this.material = new THREE.MeshBasicMaterial({ alphaTest: 0.1, side: THREE.DoubleSide, transparent: true });
-        var gridActor = new SupEngine.Actor(this.actor.gameInstance, "Grid");
+        var _this = _super.call(this, actor, "TileSetRenderer") || this;
+        _this.material = new THREE.MeshBasicMaterial({ alphaTest: 0.1, side: THREE.DoubleSide, transparent: true });
+        var gridActor = new SupEngine.Actor(_this.actor.gameInstance, "Grid");
         gridActor.setLocalPosition(new THREE.Vector3(0, 0, 1));
-        this.gridRenderer = new SupEngine.editorComponentClasses["GridRenderer"](gridActor, {
+        _this.gridRenderer = new SupEngine.editorComponentClasses["GridRenderer"](gridActor, {
             width: 1, height: 1,
             direction: -1, orthographicScale: 10,
             ratio: { x: 1, y: 1 }
         });
-        this.selectedTileActor = new SupEngine.Actor(this.actor.gameInstance, "Selection", null, { visible: false });
-        new SupEngine.editorComponentClasses["FlatColorRenderer"](this.selectedTileActor, 0x900090, 1, 1);
-        this.setTileSet(asset);
+        _this.selectedTileActor = new SupEngine.Actor(_this.actor.gameInstance, "Selection", null, { visible: false });
+        new SupEngine.editorComponentClasses["FlatColorRenderer"](_this.selectedTileActor, 0x900090, 1, 1);
+        _this.setTileSet(asset);
+        return _this;
     }
     TileSetRenderer.prototype.setTileSet = function (asset) {
         this._clearMesh();
@@ -967,10 +991,11 @@ var TileSetRenderer = (function (_super) {
     TileSetRenderer.prototype.refreshScaleRatio = function () {
         var scaleX = 1 / this.asset.data.grid.width;
         var scaleY = 1 / this.asset.data.grid.height;
-        this.mesh.scale.set(scaleX, scaleY, 1);
+        var scale = Math.max(scaleX, scaleY);
+        this.mesh.scale.set(scale, scale, 1);
         var material = this.mesh.material;
-        this.mesh.position.setX(material.map.image.width / 2 * scaleX);
-        this.mesh.position.setY(-material.map.image.height / 2 * scaleY);
+        this.mesh.position.setX(material.map.image.width / 2 * scale);
+        this.mesh.position.setY(-material.map.image.height / 2 * scale);
         this.mesh.updateMatrixWorld(false);
         this.select(0, 0);
     };
@@ -996,13 +1021,13 @@ var TileSetRenderer = (function (_super) {
     TileSetRenderer.Updater = TileSetRendererUpdater_1.default;
     return TileSetRenderer;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TileSetRenderer;
 
 },{"./TileSetRendererUpdater":8}],8:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var TileSet_1 = require("./TileSet");
-var TileSetRendererUpdater = (function () {
+var TileSetRendererUpdater = /** @class */ (function () {
     function TileSetRendererUpdater(client, tileSetRenderer, config, externalSubscriber) {
         var _this = this;
         this.client = client;
@@ -1112,11 +1137,11 @@ var TileSetRendererUpdater = (function () {
     };
     return TileSetRendererUpdater;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TileSetRendererUpdater;
 
 },{"./TileSet":6}],9:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var TileMapRenderer_1 = require("./TileMapRenderer");
 var TileSetRenderer_1 = require("./TileSetRenderer");
 SupEngine.registerComponentClass("TileMapRenderer", TileMapRenderer_1.default);

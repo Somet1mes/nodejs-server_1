@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.SupEngine = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.SupEngine = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -42097,11 +42097,12 @@ function isUndefined(arg) {
 })));
 },{}],3:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var tmpMatrix = new THREE.Matrix4();
 var tmpVector3 = new THREE.Vector3();
 var tmpQuaternion = new THREE.Quaternion();
-var Actor = (function () {
+var Actor = /** @class */ (function () {
     function Actor(gameInstance, name, parent, options) {
         this.children = [];
         this.components = [];
@@ -42297,12 +42298,12 @@ var Actor = (function () {
     };
     return Actor;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Actor;
 
 },{"three":2}],4:[function(require,module,exports){
 "use strict";
-var ActorComponent = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var ActorComponent = /** @class */ (function () {
     function ActorComponent(actor, typeName) {
         this.pendingForDestruction = false;
         this.actor = actor;
@@ -42327,12 +42328,12 @@ var ActorComponent = (function () {
     ActorComponent.prototype.update = function () { };
     return ActorComponent;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ActorComponent;
 
 },{}],5:[function(require,module,exports){
 "use strict";
-var ActorTree = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var ActorTree = /** @class */ (function () {
     function ActorTree() {
         this.root = [];
     }
@@ -42364,12 +42365,12 @@ var ActorTree = (function () {
     };
     return ActorTree;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ActorTree;
 
 },{}],6:[function(require,module,exports){
 "use strict";
-var Audio = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var Audio = /** @class */ (function () {
     function Audio() {
     }
     Audio.prototype.getContext = function () {
@@ -42385,58 +42386,64 @@ var Audio = (function () {
     };
     return Audio;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Audio;
 
 },{}],7:[function(require,module,exports){
-/// <reference path="../SupEngine.d.ts" />
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+/// <reference path="../SupEngine.d.ts" />
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
 var THREE = require("three");
 var ActorTree_1 = require("./ActorTree");
 var Input_1 = require("./Input");
 var Audio_1 = require("./Audio");
-var GameInstance = (function (_super) {
+var GameInstance = /** @class */ (function (_super) {
     __extends(GameInstance, _super);
     function GameInstance(canvas, options) {
         if (options === void 0) { options = {}; }
-        _super.call(this);
-        this.framesPerSecond = 60;
-        this.layers = ["Default"];
-        this.tree = new ActorTree_1.default();
-        this.cachedActors = [];
-        this.renderComponents = [];
-        this.componentsToBeStarted = [];
-        this.componentsToBeDestroyed = [];
-        this.actorsToBeDestroyed = [];
-        this.audio = new Audio_1.default();
-        this.threeScene = new THREE.Scene();
-        this.skipRendering = false;
+        var _this = _super.call(this) || this;
+        _this.framesPerSecond = 60;
+        _this.layers = ["Default"];
+        _this.tree = new ActorTree_1.default();
+        _this.cachedActors = [];
+        _this.renderComponents = [];
+        _this.componentsToBeStarted = [];
+        _this.componentsToBeDestroyed = [];
+        _this.actorsToBeDestroyed = [];
+        _this.audio = new Audio_1.default();
+        _this.threeScene = new THREE.Scene();
+        _this.skipRendering = false;
         // Used to know whether or not we have to close the window at exit when using the app
-        this.debug = options.debug === true;
+        _this.debug = options.debug === true;
         // Exit callback is only enabled when playing the actual game, not in most editors
-        this.input = new Input_1.default(canvas, { enableOnExit: options.enableOnExit });
+        _this.input = new Input_1.default(canvas, { enableOnExit: options.enableOnExit });
         // Setup layers
         if (options.layers != null)
-            this.layers = options.layers;
+            _this.layers = options.layers;
         // NOTE: We ask for a stencil buffer because of a Firefox bug
         // If we don't, Firefox will often return a 16-bit depth buffer
         // (rather than a more useful 24-bit depth buffer).
         // See https://bugzilla.mozilla.org/show_bug.cgi?id=1202387
         try {
-            this.threeRenderer = new THREE.WebGLRenderer({ canvas: canvas, precision: "mediump", alpha: false, antialias: false, stencil: true });
+            _this.threeRenderer = new THREE.WebGLRenderer({ canvas: canvas, precision: "mediump", alpha: false, antialias: false, stencil: true });
         }
         catch (e) {
-            return;
+            return _this;
         }
-        this.threeRenderer.setSize(0, 0, false);
-        this.threeRenderer.autoClearColor = false;
-        this.threeScene.autoUpdate = false;
+        _this.threeRenderer.setSize(0, 0, false);
+        _this.threeRenderer.autoClearColor = false;
+        _this.threeScene.autoUpdate = false;
+        return _this;
     }
     GameInstance.prototype.tick = function (accumulatedTime, callback) {
         var updateInterval = 1 / this.framesPerSecond * 1000;
@@ -42586,75 +42593,79 @@ var GameInstance = (function (_super) {
     };
     return GameInstance;
 }(events_1.EventEmitter));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = GameInstance;
 
 },{"./ActorTree":5,"./Audio":6,"./Input":8,"events":1,"three":2}],8:[function(require,module,exports){
 (function (global){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
-var Input = (function (_super) {
+var Input = /** @class */ (function (_super) {
     __extends(Input, _super);
     function Input(canvas, options) {
-        var _this = this;
         if (options === void 0) { options = {}; }
-        _super.call(this);
-        this.mouseButtons = [];
-        this.mouseButtonsDown = [];
-        this.mousePosition = { x: 0, y: 0 };
-        this.mouseDelta = { x: 0, y: 0 };
-        this.newMouseDelta = { x: 0, y: 0 };
-        this.touches = [];
-        this.touchesDown = [];
-        this.keyboardButtons = [];
-        this.keyboardButtonsDown = [];
-        this.autoRepeatedKey = null;
-        this.textEntered = "";
-        this.newTextEntered = "";
-        this.gamepadsButtons = [];
-        this.gamepadsAxes = [];
-        this.gamepadsAutoRepeats = [];
-        this.gamepadAxisDeadZone = 0.25;
-        this.gamepadAxisAutoRepeatDelayMs = 500;
-        this.gamepadAxisAutoRepeatRateMs = 33;
-        this.exited = false;
-        this.wantsPointerLock = false;
-        this.wantsFullscreen = false;
-        this.wasPointerLocked = false;
-        this.wasFullscreen = false;
-        this.onPointerLockChange = function () {
+        var _this = _super.call(this) || this;
+        _this.mouseButtons = [];
+        _this.mouseButtonsDown = [];
+        _this.mousePosition = { x: 0, y: 0 };
+        _this.mouseDelta = { x: 0, y: 0 };
+        _this.newMouseDelta = { x: 0, y: 0 };
+        _this.touches = [];
+        _this.touchesDown = [];
+        _this.keyboardButtons = [];
+        _this.keyboardButtonsDown = [];
+        _this.autoRepeatedKey = null;
+        _this.textEntered = "";
+        _this.newTextEntered = "";
+        _this.gamepadsButtons = [];
+        _this.gamepadsAxes = [];
+        _this.gamepadsAutoRepeats = [];
+        _this.gamepadAxisDeadZone = 0.25;
+        _this.gamepadAxisAutoRepeatDelayMs = 500;
+        _this.gamepadAxisAutoRepeatRateMs = 33;
+        _this.exited = false;
+        _this.wantsPointerLock = false;
+        _this.wantsFullscreen = false;
+        _this.wasPointerLocked = false;
+        _this.wasFullscreen = false;
+        _this.onPointerLockChange = function () {
             var isPointerLocked = _this._isPointerLocked();
             if (_this.wasPointerLocked !== isPointerLocked) {
                 _this.emit("mouseLockStateChange", isPointerLocked ? "active" : "suspended");
                 _this.wasPointerLocked = isPointerLocked;
             }
         };
-        this.onPointerLockError = function () {
+        _this.onPointerLockError = function () {
             if (_this.wasPointerLocked) {
                 _this.emit("mouseLockStateChange", "suspended");
                 _this.wasPointerLocked = false;
             }
         };
-        this.onFullscreenChange = function () {
+        _this.onFullscreenChange = function () {
             var isFullscreen = _this._isFullscreen();
             if (_this.wasFullscreen !== isFullscreen) {
                 _this.emit("fullscreenStateChange", isFullscreen ? "active" : "suspended");
                 _this.wasFullscreen = isFullscreen;
             }
         };
-        this.onFullscreenError = function () {
+        _this.onFullscreenError = function () {
             if (_this.wasFullscreen) {
                 _this.emit("fullscreenStateChange", "suspended");
                 _this.wasFullscreen = false;
             }
         };
-        this.onBlur = function () { _this.reset(); };
-        this.onMouseMove = function (event) {
+        _this.onBlur = function () { _this.reset(); };
+        _this.onMouseMove = function (event) {
             event.preventDefault();
             if (_this.wantsPointerLock) {
                 if (_this.wasPointerLocked) {
@@ -42680,7 +42691,7 @@ var Input = (function (_super) {
                 _this.newMousePosition = { x: event.clientX - rect.left, y: event.clientY - rect.top };
             }
         };
-        this.onMouseDown = function (event) {
+        _this.onMouseDown = function (event) {
             event.preventDefault();
             _this.canvas.focus();
             _this.mouseButtonsDown[event.button] = true;
@@ -42689,7 +42700,7 @@ var Input = (function (_super) {
             if (_this.wantsPointerLock && !_this.wasPointerLocked)
                 _this._doPointerLock();
         };
-        this.onMouseUp = function (event) {
+        _this.onMouseUp = function (event) {
             if (_this.mouseButtonsDown[event.button])
                 event.preventDefault();
             _this.mouseButtonsDown[event.button] = false;
@@ -42698,19 +42709,19 @@ var Input = (function (_super) {
             if (_this.wantsPointerLock && !_this.wasPointerLocked)
                 _this._doPointerLock();
         };
-        this.onMouseDblClick = function (event) {
+        _this.onMouseDblClick = function (event) {
             event.preventDefault();
             _this.mouseButtons[event.button].doubleClicked = true;
         };
-        this.onContextMenu = function (event) {
+        _this.onContextMenu = function (event) {
             event.preventDefault();
         };
-        this.onMouseWheel = function (event) {
+        _this.onMouseWheel = function (event) {
             event.preventDefault();
             _this.newScrollDelta = (event.wheelDelta > 0 || event.detail < 0) ? 1 : -1;
             return false;
         };
-        this.onTouchStart = function (event) {
+        _this.onTouchStart = function (event) {
             event.preventDefault();
             var rect = event.target.getBoundingClientRect();
             for (var i = 0; i < event.changedTouches.length; i++) {
@@ -42724,7 +42735,7 @@ var Input = (function (_super) {
                 }
             }
         };
-        this.onTouchEnd = function (event) {
+        _this.onTouchEnd = function (event) {
             event.preventDefault();
             for (var i = 0; i < event.changedTouches.length; i++) {
                 var touch = event.changedTouches[i];
@@ -42733,7 +42744,7 @@ var Input = (function (_super) {
                     _this.mouseButtonsDown[0] = false;
             }
         };
-        this.onTouchMove = function (event) {
+        _this.onTouchMove = function (event) {
             event.preventDefault();
             var rect = event.target.getBoundingClientRect();
             for (var i = 0; i < event.changedTouches.length; i++) {
@@ -42746,7 +42757,7 @@ var Input = (function (_super) {
         };
         // TODO: stop using keyCode when KeyboardEvent.code is supported more widely
         // See https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent.code
-        this.onKeyDown = function (event) {
+        _this.onKeyDown = function (event) {
             // NOTE: Key codes in range 33-47 are Page Up/Down, Home/End, arrow keys, Insert/Delete, etc.
             var isControlKey = event.keyCode < 48 && event.keyCode !== 32;
             if (isControlKey)
@@ -42757,7 +42768,7 @@ var Input = (function (_super) {
                 _this.autoRepeatedKey = event.keyCode;
             return !isControlKey;
         };
-        this.onKeyPress = function (event) {
+        _this.onKeyPress = function (event) {
             if (event.keyCode > 0 && event.keyCode < 32)
                 return;
             if (event.char != null)
@@ -42767,10 +42778,10 @@ var Input = (function (_super) {
             else
                 _this.newTextEntered += String.fromCharCode(event.keyCode);
         };
-        this.onKeyUp = function (event) {
+        _this.onKeyUp = function (event) {
             _this.keyboardButtonsDown[event.keyCode] = false;
         };
-        this.doExitCallback = function () {
+        _this.doExitCallback = function () {
             // NOTE: It seems window.onbeforeunload might be called twice
             // in some circumstances so we check if the callback was cleared already
             // http://stackoverflow.com/questions/8711393/onbeforeunload-fires-twice
@@ -42780,59 +42791,60 @@ var Input = (function (_super) {
         };
         if (options == null)
             options = {};
-        this.canvas = canvas;
+        _this.canvas = canvas;
         // Mouse
-        this.canvas.addEventListener("mousemove", this.onMouseMove);
-        this.canvas.addEventListener("mousedown", this.onMouseDown);
-        this.canvas.addEventListener("dblclick", this.onMouseDblClick);
-        document.addEventListener("mouseup", this.onMouseUp);
-        this.canvas.addEventListener("contextmenu", this.onContextMenu);
-        this.canvas.addEventListener("DOMMouseScroll", this.onMouseWheel);
-        this.canvas.addEventListener("mousewheel", this.onMouseWheel);
+        _this.canvas.addEventListener("mousemove", _this.onMouseMove);
+        _this.canvas.addEventListener("mousedown", _this.onMouseDown);
+        _this.canvas.addEventListener("dblclick", _this.onMouseDblClick);
+        document.addEventListener("mouseup", _this.onMouseUp);
+        _this.canvas.addEventListener("contextmenu", _this.onContextMenu);
+        _this.canvas.addEventListener("DOMMouseScroll", _this.onMouseWheel);
+        _this.canvas.addEventListener("mousewheel", _this.onMouseWheel);
         if ("onpointerlockchange" in document)
-            document.addEventListener("pointerlockchange", this.onPointerLockChange, false);
+            document.addEventListener("pointerlockchange", _this.onPointerLockChange, false);
         else if ("onmozpointerlockchange" in document)
-            document.addEventListener("mozpointerlockchange", this.onPointerLockChange, false);
+            document.addEventListener("mozpointerlockchange", _this.onPointerLockChange, false);
         else if ("onwebkitpointerlockchange" in document)
-            document.addEventListener("webkitpointerlockchange", this.onPointerLockChange, false);
+            document.addEventListener("webkitpointerlockchange", _this.onPointerLockChange, false);
         if ("onpointerlockerror" in document)
-            document.addEventListener("pointerlockerror", this.onPointerLockError, false);
+            document.addEventListener("pointerlockerror", _this.onPointerLockError, false);
         else if ("onmozpointerlockerror" in document)
-            document.addEventListener("mozpointerlockerror", this.onPointerLockError, false);
+            document.addEventListener("mozpointerlockerror", _this.onPointerLockError, false);
         else if ("onwebkitpointerlockerror" in document)
-            document.addEventListener("webkitpointerlockerror", this.onPointerLockError, false);
+            document.addEventListener("webkitpointerlockerror", _this.onPointerLockError, false);
         if ("onfullscreenchange" in document)
-            document.addEventListener("fullscreenchange", this.onFullscreenChange, false);
+            document.addEventListener("fullscreenchange", _this.onFullscreenChange, false);
         else if ("onmozfullscreenchange" in document)
-            document.addEventListener("mozfullscreenchange", this.onFullscreenChange, false);
+            document.addEventListener("mozfullscreenchange", _this.onFullscreenChange, false);
         else if ("onwebkitfullscreenchange" in document)
-            document.addEventListener("webkitfullscreenchange", this.onFullscreenChange, false);
+            document.addEventListener("webkitfullscreenchange", _this.onFullscreenChange, false);
         if ("onfullscreenerror" in document)
-            document.addEventListener("fullscreenerror", this.onFullscreenError, false);
+            document.addEventListener("fullscreenerror", _this.onFullscreenError, false);
         else if ("onmozfullscreenerror" in document)
-            document.addEventListener("mozfullscreenerror", this.onFullscreenError, false);
+            document.addEventListener("mozfullscreenerror", _this.onFullscreenError, false);
         else if ("onwebkitfullscreenerror" in document)
-            document.addEventListener("webkitfullscreenerror", this.onFullscreenError, false);
+            document.addEventListener("webkitfullscreenerror", _this.onFullscreenError, false);
         // Touch
-        this.canvas.addEventListener("touchstart", this.onTouchStart);
-        this.canvas.addEventListener("touchend", this.onTouchEnd);
-        this.canvas.addEventListener("touchmove", this.onTouchMove);
+        _this.canvas.addEventListener("touchstart", _this.onTouchStart);
+        _this.canvas.addEventListener("touchend", _this.onTouchEnd);
+        _this.canvas.addEventListener("touchmove", _this.onTouchMove);
         // Keyboard
-        this.canvas.addEventListener("keydown", this.onKeyDown);
-        this.canvas.addEventListener("keypress", this.onKeyPress);
-        document.addEventListener("keyup", this.onKeyUp);
+        _this.canvas.addEventListener("keydown", _this.onKeyDown);
+        _this.canvas.addEventListener("keypress", _this.onKeyPress);
+        document.addEventListener("keyup", _this.onKeyUp);
         // Gamepad
         for (var i = 0; i < 4; i++) {
-            this.gamepadsButtons[i] = [];
-            this.gamepadsAxes[i] = [];
-            this.gamepadsAutoRepeats[i] = null;
+            _this.gamepadsButtons[i] = [];
+            _this.gamepadsAxes[i] = [];
+            _this.gamepadsAutoRepeats[i] = null;
         }
         // On exit
         if (options.enableOnExit) {
-            window.onbeforeunload = this.doExitCallback;
+            window.onbeforeunload = _this.doExitCallback;
         }
-        window.addEventListener("blur", this.onBlur);
-        this.reset();
+        window.addEventListener("blur", _this.onBlur);
+        _this.reset();
+        return _this;
     }
     Input.prototype.destroy = function () {
         this.removeAllListeners();
@@ -43121,7 +43133,6 @@ var Input = (function (_super) {
     Input.maxTouches = 10;
     return Input;
 }(events_1.EventEmitter));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Input;
 // FIXME: KeyEvent isn't in lib.d.ts yet
 if (global.window != null && window.KeyEvent == null) {
@@ -43247,7 +43258,8 @@ if (global.window != null && window.KeyEvent == null) {
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"events":1}],9:[function(require,module,exports){
 "use strict";
-var SoundPlayer = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var SoundPlayer = /** @class */ (function () {
     function SoundPlayer(audioCtx, audioMasterGain, buffer) {
         this.offset = 0;
         this.isLooping = false;
@@ -43390,53 +43402,57 @@ var SoundPlayer = (function () {
     };
     return SoundPlayer;
 }());
-var SoundPlayer;
 (function (SoundPlayer) {
+    var State;
     (function (State) {
         State[State["Playing"] = 0] = "Playing";
         State[State["Paused"] = 1] = "Paused";
         State[State["Stopped"] = 2] = "Stopped";
-    })(SoundPlayer.State || (SoundPlayer.State = {}));
-    var State = SoundPlayer.State;
+    })(State = SoundPlayer.State || (SoundPlayer.State = {}));
 })(SoundPlayer || (SoundPlayer = {}));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SoundPlayer;
 
 },{}],10:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var ActorComponent_1 = require("../ActorComponent");
-var Camera = (function (_super) {
+var Camera = /** @class */ (function (_super) {
     __extends(Camera, _super);
     function Camera(actor) {
-        var _this = this;
-        _super.call(this, actor, "Camera");
-        this.fov = 45;
-        this.orthographicScale = 10;
-        this.viewport = { x: 0, y: 0, width: 1, height: 1 };
-        this.layers = [];
-        this.depth = 0;
-        this.nearClippingPlane = 0.1;
-        this.farClippingPlane = 1000;
-        this.computeAspectRatio = function () {
+        var _this = _super.call(this, actor, "Camera") || this;
+        _this.fov = 45;
+        _this.orthographicScale = 10;
+        _this.viewport = { x: 0, y: 0, width: 1, height: 1 };
+        _this.layers = [];
+        _this.depth = 0;
+        _this.nearClippingPlane = 0.1;
+        _this.farClippingPlane = 1000;
+        _this.computeAspectRatio = function () {
             var canvas = _this.actor.gameInstance.threeRenderer.domElement;
             _this.cachedRatio = (canvas.clientWidth * _this.viewport.width) / (canvas.clientHeight * _this.viewport.height);
             _this.projectionNeedsUpdate = true;
         };
-        this.unifiedThreeCamera = {
+        _this.unifiedThreeCamera = {
             type: "perspective",
             matrixWorld: null,
             projectionMatrix: null,
             updateMatrixWorld: function () { }
         };
-        this.setOrthographicMode(false);
-        this.computeAspectRatio();
-        this.actor.gameInstance.on("resize", this.computeAspectRatio);
+        _this.setOrthographicMode(false);
+        _this.computeAspectRatio();
+        _this.actor.gameInstance.on("resize", _this.computeAspectRatio);
+        return _this;
     }
     Camera.prototype._destroy = function () {
         this.actor.gameInstance.removeListener("resize", this.computeAspectRatio);
@@ -43530,28 +43546,34 @@ var Camera = (function (_super) {
     };
     return Camera;
 }(ActorComponent_1.default));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Camera;
 
 },{"../ActorComponent":4,"three":2}],11:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var ActorComponent_1 = require("../ActorComponent");
 var tmpVector3 = new THREE.Vector3();
-var Camera2DControls = (function (_super) {
+var Camera2DControls = /** @class */ (function (_super) {
     __extends(Camera2DControls, _super);
     function Camera2DControls(actor, camera, options, zoomCallback) {
-        _super.call(this, actor, "Camera2DControls");
-        this.multiplier = 1;
-        this.actor = actor;
-        this.camera = camera;
-        this.options = options;
-        this.zoomCallback = zoomCallback;
+        var _this = _super.call(this, actor, "Camera2DControls") || this;
+        _this.multiplier = 1;
+        _this.actor = actor;
+        _this.camera = camera;
+        _this.options = options;
+        _this.zoomCallback = zoomCallback;
+        return _this;
     }
     Camera2DControls.prototype.setIsLayerActive = function (active) { };
     Camera2DControls.prototype.setMultiplier = function (newMultiplier) {
@@ -43583,6 +43605,7 @@ var Camera2DControls = (function (_super) {
             if (mouseDelta.x !== 0 || mouseDelta.y !== 0)
                 this.camera.actor.moveLocal(new THREE.Vector3(-mouseDelta.x, mouseDelta.y, 0));
         }
+        // Zoom
         else {
             var mousePosition = input.mousePosition;
             var newOrthographicScale = void 0;
@@ -43628,28 +43651,34 @@ var Camera2DControls = (function (_super) {
     };
     return Camera2DControls;
 }(ActorComponent_1.default));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Camera2DControls;
 
 },{"../ActorComponent":4,"three":2}],12:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var ActorComponent_1 = require("../ActorComponent");
 var tmpMovement = new THREE.Vector3();
 var tmpQuaternion = new THREE.Quaternion();
 var forwardVector = new THREE.Vector3(0, 1, 0);
-var Camera3DControls = (function (_super) {
+var Camera3DControls = /** @class */ (function (_super) {
     __extends(Camera3DControls, _super);
     function Camera3DControls(actor, camera) {
-        _super.call(this, actor, "Camera3DControls");
-        this.movementSpeed = 0.2;
-        this.camera = camera;
-        this.rotation = actor.getLocalEulerAngles(new THREE.Euler());
+        var _this = _super.call(this, actor, "Camera3DControls") || this;
+        _this.movementSpeed = 0.2;
+        _this.camera = camera;
+        _this.rotation = actor.getLocalEulerAngles(new THREE.Euler());
+        return _this;
     }
     Camera3DControls.prototype.setIsLayerActive = function (active) { };
     Camera3DControls.prototype.update = function () {
@@ -43678,23 +43707,29 @@ var Camera3DControls = (function (_super) {
     };
     return Camera3DControls;
 }(ActorComponent_1.default));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Camera3DControls;
 
 },{"../ActorComponent":4,"three":2}],13:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var ActorComponent_1 = require("../ActorComponent");
-var FlatColorRenderer = (function (_super) {
+var FlatColorRenderer = /** @class */ (function (_super) {
     __extends(FlatColorRenderer, _super);
     function FlatColorRenderer(actor, color, scaleRatio, width, height) {
-        _super.call(this, actor, "GridRenderer");
-        this.setup(color, scaleRatio, width, height);
+        var _this = _super.call(this, actor, "GridRenderer") || this;
+        _this.setup(color, scaleRatio, width, height);
+        return _this;
     }
     FlatColorRenderer.prototype.setIsLayerActive = function (active) { if (this.mesh != null)
         this.mesh.visible = active; };
@@ -43735,24 +43770,30 @@ var FlatColorRenderer = (function (_super) {
     };
     return FlatColorRenderer;
 }(ActorComponent_1.default));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = FlatColorRenderer;
 
 },{"../ActorComponent":4,"three":2}],14:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var ActorComponent_1 = require("../ActorComponent");
-var GridRenderer = (function (_super) {
+var GridRenderer = /** @class */ (function (_super) {
     __extends(GridRenderer, _super);
     function GridRenderer(actor, data) {
-        _super.call(this, actor, "GridRenderer");
+        var _this = _super.call(this, actor, "GridRenderer") || this;
         if (data != null)
-            this.setGrid(data);
+            _this.setGrid(data);
+        return _this;
     }
     GridRenderer.prototype.setIsLayerActive = function (active) { if (this.mesh != null)
         this.mesh.visible = active; };
@@ -43820,22 +43861,27 @@ var GridRenderer = (function (_super) {
     };
     return GridRenderer;
 }(ActorComponent_1.default));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = GridRenderer;
 
 },{"../ActorComponent":4,"three":2}],15:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 var ActorComponent_1 = require("../ActorComponent");
-var SelectionRenderer = (function (_super) {
+var SelectionRenderer = /** @class */ (function (_super) {
     __extends(SelectionRenderer, _super);
     function SelectionRenderer(actor) {
-        _super.call(this, actor, "SelectionRenderer");
+        return _super.call(this, actor, "SelectionRenderer") || this;
     }
     SelectionRenderer.prototype.setIsLayerActive = function (active) { if (this.mesh != null)
         this.mesh.visible = active; };
@@ -43869,11 +43915,11 @@ var SelectionRenderer = (function (_super) {
     };
     return SelectionRenderer;
 }(ActorComponent_1.default));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SelectionRenderer;
 
 },{"../ActorComponent":4,"three":2}],16:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = require("three");
 exports.THREE = THREE;
 THREE.Euler.DefaultOrder = "YXZ";

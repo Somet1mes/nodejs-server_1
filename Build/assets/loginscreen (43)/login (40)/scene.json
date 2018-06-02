@@ -140,7 +140,7 @@
           "config": {
             "formatVersion": 2,
             "fontAssetId": "44",
-            "text": "SSO",
+            "text": "Think of a Title",
             "alignment": "center",
             "verticalAlignment": "center",
             "size": 75,
@@ -197,8 +197,8 @@
             }
           ],
           "position": {
-            "x": 1.7388887405395508,
-            "y": -3.084721565246582,
+            "x": 0,
+            "y": 0,
             "z": 0
           },
           "orientation": {
@@ -240,120 +240,11 @@
             "propertyValues": {}
           },
           "id": "1"
-        },
-        {
-          "type": "SpriteRenderer",
-          "config": {
-            "formatVersion": 1,
-            "spriteAssetId": "2",
-            "animationId": "0",
-            "horizontalFlip": false,
-            "verticalFlip": false,
-            "castShadow": false,
-            "receiveShadow": false,
-            "color": "ffffff",
-            "overrideOpacity": false,
-            "opacity": null,
-            "materialType": "basic",
-            "shaderAssetId": null
-          },
-          "id": "2"
         }
       ],
       "position": {
         "x": 11.98900032043457,
         "y": 9.668999671936035,
-        "z": 50
-      },
-      "orientation": {
-        "x": 0,
-        "y": 0,
-        "z": 0,
-        "w": 1
-      },
-      "scale": {
-        "x": 1,
-        "y": 1,
-        "z": 1
-      },
-      "visible": true,
-      "layer": 0,
-      "prefab": null
-    },
-    {
-      "id": "7",
-      "name": "pass",
-      "children": [
-        {
-          "id": "9",
-          "name": "cursor",
-          "children": [],
-          "components": [
-            {
-              "type": "TextRenderer",
-              "config": {
-                "formatVersion": 2,
-                "fontAssetId": "44",
-                "text": "|",
-                "alignment": "center",
-                "verticalAlignment": "center",
-                "size": null,
-                "color": null,
-                "overrideOpacity": true,
-                "opacity": null
-              },
-              "id": "0"
-            }
-          ],
-          "position": {
-            "x": 2.138888359069824,
-            "y": -0.709721565246582,
-            "z": 0
-          },
-          "orientation": {
-            "x": 0,
-            "y": 0,
-            "z": 0,
-            "w": 1
-          },
-          "scale": {
-            "x": 1,
-            "y": 1,
-            "z": 1
-          },
-          "visible": true,
-          "layer": 0,
-          "prefab": null
-        }
-      ],
-      "components": [
-        {
-          "type": "TextRenderer",
-          "config": {
-            "formatVersion": 2,
-            "fontAssetId": "44",
-            "text": "",
-            "alignment": "center",
-            "verticalAlignment": "center",
-            "size": null,
-            "color": null,
-            "overrideOpacity": true,
-            "opacity": null
-          },
-          "id": "0"
-        },
-        {
-          "type": "Behavior",
-          "config": {
-            "behaviorName": "TextFieldBehavior",
-            "propertyValues": {}
-          },
-          "id": "1"
-        }
-      ],
-      "position": {
-        "x": 11.58899974822998,
-        "y": 7.293999671936035,
         "z": 50
       },
       "orientation": {

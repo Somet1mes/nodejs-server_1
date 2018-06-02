@@ -1,17 +1,24 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
-var GridHelper = (function (_super) {
+var GridHelper = /** @class */ (function (_super) {
     __extends(GridHelper, _super);
     function GridHelper(actor, size, step) {
-        _super.call(this, actor, "GridHelper");
-        this.visible = true;
-        this.setup(size, step);
+        var _this = _super.call(this, actor, "GridHelper") || this;
+        _this.visible = true;
+        _this.setup(size, step);
+        return _this;
     }
     GridHelper.prototype.setIsLayerActive = function (active) { this.gridHelper.visible = active && this.visible; };
     GridHelper.prototype.setup = function (size, step) {
@@ -33,28 +40,34 @@ var GridHelper = (function (_super) {
     };
     return GridHelper;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = GridHelper;
 
 },{}],2:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
-var SelectionBox = (function (_super) {
+var SelectionBox = /** @class */ (function (_super) {
     __extends(SelectionBox, _super);
     function SelectionBox(actor) {
-        _super.call(this, actor, "SelectionBox");
-        this.geometry = new THREE.Geometry();
+        var _this = _super.call(this, actor, "SelectionBox") || this;
+        _this.geometry = new THREE.Geometry();
         for (var i = 0; i < 24; i++)
-            this.geometry.vertices.push(new THREE.Vector3(0, 0, 0));
-        this.line = new THREE.LineSegments(this.geometry, new THREE.LineBasicMaterial({ color: 0x00ffff, opacity: 1, depthTest: false, depthWrite: false, transparent: true }));
-        this.actor.threeObject.add(this.line);
-        this.line.updateMatrixWorld(false);
-        this.line.visible = false;
+            _this.geometry.vertices.push(new THREE.Vector3(0, 0, 0));
+        _this.line = new THREE.LineSegments(_this.geometry, new THREE.LineBasicMaterial({ color: 0x00ffff, opacity: 1, depthTest: false, depthWrite: false, transparent: true }));
+        _this.actor.threeObject.add(_this.line);
+        _this.line.updateMatrixWorld(false);
+        _this.line.visible = false;
+        return _this;
     }
     SelectionBox.prototype.setIsLayerActive = function (active) { this.line.visible = active && this.target != null; };
     SelectionBox.prototype.setTarget = function (target) {
@@ -136,7 +149,6 @@ var SelectionBox = (function (_super) {
     };
     return SelectionBox;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = SelectionBox;
 
 },{}],3:[function(require,module,exports){
@@ -1293,22 +1305,29 @@ exports.default = SelectionBox;
 }() );
 },{}],4:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
 require("./TransformControls");
-var TransformHandle = (function (_super) {
+var TransformHandle = /** @class */ (function (_super) {
     __extends(TransformHandle, _super);
     function TransformHandle(actor, threeCamera) {
-        _super.call(this, actor, "TransformHandle");
-        this.mode = "translate";
-        this.space = "world";
-        this.controlVisible = false;
-        this.control = new THREE.TransformControls(threeCamera, actor.gameInstance.threeRenderer.domElement);
-        this.actor.gameInstance.threeScene.add(this.control);
+        var _this = _super.call(this, actor, "TransformHandle") || this;
+        _this.mode = "translate";
+        _this.space = "world";
+        _this.controlVisible = false;
+        _this.control = new THREE.TransformControls(threeCamera, actor.gameInstance.threeRenderer.domElement);
+        _this.actor.gameInstance.threeScene.add(_this.control);
+        return _this;
     }
     TransformHandle.prototype.setIsLayerActive = function (active) { this.control.visible = active && this.controlVisible; };
     TransformHandle.prototype.update = function () {
@@ -1357,27 +1376,33 @@ var TransformHandle = (function (_super) {
     };
     return TransformHandle;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TransformHandle;
 
 },{"./TransformControls":3}],5:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
-var TransformMarker = (function (_super) {
+var TransformMarker = /** @class */ (function (_super) {
     __extends(TransformMarker, _super);
     function TransformMarker(actor) {
-        _super.call(this, actor, "TransformMarker");
-        this.visible = true;
+        var _this = _super.call(this, actor, "TransformMarker") || this;
+        _this.visible = true;
         var geometry = new THREE.Geometry();
         geometry.vertices.push(new THREE.Vector3(-0.25, 0, 0), new THREE.Vector3(0.25, 0, 0), new THREE.Vector3(0, -0.25, 0), new THREE.Vector3(0, 0.25, 0), new THREE.Vector3(0, 0, -0.25), new THREE.Vector3(0, 0, 0.25));
-        this.line = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.25, transparent: true }));
-        this.actor.threeObject.add(this.line);
-        this.line.updateMatrixWorld(false);
+        _this.line = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.25, transparent: true }));
+        _this.actor.threeObject.add(_this.line);
+        _this.line.updateMatrixWorld(false);
+        return _this;
     }
     TransformMarker.prototype.setIsLayerActive = function (active) { this.line.visible = active && this.visible; };
     TransformMarker.prototype.move = function (target) {
@@ -1398,11 +1423,11 @@ var TransformMarker = (function (_super) {
     };
     return TransformMarker;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TransformMarker;
 
 },{}],6:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var SelectionBox_1 = require("./SelectionBox");
 var TransformHandle_1 = require("./TransformHandle");
 var TransformMarker_1 = require("./TransformMarker");

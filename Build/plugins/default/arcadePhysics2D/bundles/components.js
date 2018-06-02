@@ -1,28 +1,35 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
 var tmpVector3 = new THREE.Vector3();
-var ArcadeBody2D = (function (_super) {
+var ArcadeBody2D = /** @class */ (function (_super) {
     __extends(ArcadeBody2D, _super);
     function ArcadeBody2D(actor, type) {
-        _super.call(this, actor, "ArcadeBody2D");
-        this.enabled = true;
-        this.movable = false;
-        this.width = 1;
-        this.height = 1;
-        this.offsetX = 0;
-        this.offsetY = 0;
-        this.bounceX = 0;
-        this.bounceY = 0;
-        this.layersIndex = [];
-        this.customGravity = { x: null, y: null };
-        this.touches = { top: false, bottom: false, right: false, left: false };
-        SupEngine.ArcadePhysics2D.allBodies.push(this);
+        var _this = _super.call(this, actor, "ArcadeBody2D") || this;
+        _this.enabled = true;
+        _this.movable = false;
+        _this.width = 1;
+        _this.height = 1;
+        _this.offsetX = 0;
+        _this.offsetY = 0;
+        _this.bounceX = 0;
+        _this.bounceY = 0;
+        _this.layersIndex = [];
+        _this.customGravity = { x: null, y: null };
+        _this.touches = { top: false, bottom: false, right: false, left: false };
+        SupEngine.ArcadePhysics2D.allBodies.push(_this);
+        return _this;
     }
     ArcadeBody2D.prototype.setIsLayerActive = function (active) { };
     ArcadeBody2D.prototype.setupBox = function (config) {
@@ -108,25 +115,31 @@ var ArcadeBody2D = (function (_super) {
     ArcadeBody2D.prototype.deltaY = function () { return this.position.y - this.previousPosition.y; };
     return ArcadeBody2D;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ArcadeBody2D;
 
 },{}],2:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var ArcadeBody2DUpdater_1 = require("./ArcadeBody2DUpdater");
 var THREE = SupEngine.THREE;
 var tmpVector3 = new THREE.Vector3();
-var ArcadeBody2DMarker = (function (_super) {
+var ArcadeBody2DMarker = /** @class */ (function (_super) {
     __extends(ArcadeBody2DMarker, _super);
     function ArcadeBody2DMarker(actor) {
-        _super.call(this, actor, "ArcadeBody2DMarker");
-        this.offset = new THREE.Vector3(0, 0, 0);
-        this.markerActor = new SupEngine.Actor(this.actor.gameInstance, "Marker", null, { layer: -1 });
+        var _this = _super.call(this, actor, "ArcadeBody2DMarker") || this;
+        _this.offset = new THREE.Vector3(0, 0, 0);
+        _this.markerActor = new SupEngine.Actor(_this.actor.gameInstance, "Marker", null, { layer: -1 });
+        return _this;
     }
     ArcadeBody2DMarker.prototype.setIsLayerActive = function (active) {
         if (this.line != null)
@@ -174,12 +187,12 @@ var ArcadeBody2DMarker = (function (_super) {
     ArcadeBody2DMarker.Updater = ArcadeBody2DUpdater_1.default;
     return ArcadeBody2DMarker;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ArcadeBody2DMarker;
 
 },{"./ArcadeBody2DUpdater":3}],3:[function(require,module,exports){
 "use strict";
-var ArcadeBody2DUpdater = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var ArcadeBody2DUpdater = /** @class */ (function () {
     function ArcadeBody2DUpdater(projectClient, bodyRenderer, config) {
         this.projectClient = projectClient;
         this.bodyRenderer = bodyRenderer;
@@ -205,11 +218,11 @@ var ArcadeBody2DUpdater = (function () {
     };
     return ArcadeBody2DUpdater;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = ArcadeBody2DUpdater;
 
 },{}],4:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var epsilon = 0.0001;
 var THREE = SupEngine.THREE;
 var ArcadeBody2D_1 = require("./ArcadeBody2D");
@@ -284,16 +297,16 @@ var ArcadePhysics2D;
                         collide = true;
                     if (!collide)
                         continue;
-                    body1.velocity.x = -body1.velocity.x * body1.bounceX;
-                    if (body1.deltaX() < 0) {
-                        if (options.moveBody)
+                    if (options.moveBody) {
+                        body1.velocity.x = -body1.velocity.x * body1.bounceX;
+                        if (body1.deltaX() < 0) {
                             body1.position.x = (x + 1) * body2.mapToSceneFactor.x + body2.position.x + body1.width / 2;
-                        body1.touches.left = true;
-                    }
-                    else {
-                        if (options.moveBody)
+                            body1.touches.left = true;
+                        }
+                        else {
                             body1.position.x = (x) * body2.mapToSceneFactor.x + body2.position.x - body1.width / 2;
-                        body1.touches.right = true;
+                            body1.touches.right = true;
+                        }
                     }
                     return true;
                 }
@@ -318,16 +331,16 @@ var ArcadePhysics2D;
                         collide = true;
                     if (!collide)
                         continue;
-                    body1.velocity.y = -body1.velocity.y * body1.bounceY;
-                    if (body1.deltaY() < 0) {
-                        if (options.moveBody)
+                    if (options.moveBody) {
+                        body1.velocity.y = -body1.velocity.y * body1.bounceY;
+                        if (body1.deltaY() < 0) {
                             body1.position.y = (y + 1) * body2.mapToSceneFactor.y + body2.position.y + body1.height / 2;
-                        body1.touches.bottom = true;
-                    }
-                    else {
-                        if (options.moveBody)
+                            body1.touches.bottom = true;
+                        }
+                        else {
                             body1.position.y = (y) * body2.mapToSceneFactor.y + body2.position.y - body1.height / 2;
-                        body1.touches.top = true;
+                            body1.touches.top = true;
+                        }
                     }
                     return true;
                 }

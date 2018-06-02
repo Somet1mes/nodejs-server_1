@@ -1,4 +1,4 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -304,17 +304,24 @@ function isUndefined(arg) {
 
 },{}],2:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var events_1 = require("events");
-var TileMap = (function (_super) {
+var TileMap = /** @class */ (function (_super) {
     __extends(TileMap, _super);
     function TileMap(data) {
-        _super.call(this);
-        this.data = data;
+        var _this = _super.call(this) || this;
+        _this.data = data;
+        return _this;
     }
     TileMap.prototype.getWidth = function () { return this.data.width; };
     TileMap.prototype.getHeight = function () { return this.data.height; };
@@ -337,22 +344,22 @@ var TileMap = (function (_super) {
     };
     return TileMap;
 }(events_1.EventEmitter));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TileMap;
 
 },{"events":1}],3:[function(require,module,exports){
 "use strict";
-var TileSet = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var TileSet = /** @class */ (function () {
     function TileSet(data) {
         this.data = data;
     }
     return TileSet;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = TileSet;
 
 },{}],4:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 function setupComponent(player, component, config) {
     if (config.tileMapAssetId == null)
         return;
@@ -377,6 +384,7 @@ exports.setupComponent = setupComponent;
 
 },{}],5:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var TileMapRenderer = require("./TileMapRenderer");
 var tileMap = require("./tileMap");
 var tileSet = require("./tileSet");
@@ -386,6 +394,7 @@ SupRuntime.registerPlugin("tileSet", tileSet);
 
 },{"./TileMapRenderer":4,"./tileMap":6,"./tileSet":7}],6:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var TileMap_1 = require("../components/TileMap");
 function loadAsset(player, entry, callback) {
     player.getAssetData("assets/" + entry.storagePath + "/tilemap.json", "json", function (err, data) {
@@ -400,6 +409,7 @@ exports.createOuterAsset = createOuterAsset;
 
 },{"../components/TileMap":2}],7:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var TileSet_1 = require("../components/TileSet");
 function loadAsset(player, entry, callback) {
     player.getAssetData("assets/" + entry.storagePath + "/tileset.json", "json", function (err, data) {

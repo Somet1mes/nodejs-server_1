@@ -1,19 +1,26 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
-var P2Body = (function (_super) {
+var P2Body = /** @class */ (function (_super) {
     __extends(P2Body, _super);
     function P2Body(actor) {
-        _super.call(this, actor, "P2Body");
-        this.actorPosition = new THREE.Vector3();
-        this.actorAngles = new THREE.Euler();
-        this.body = new window.p2.Body();
-        SupEngine.P2.world.addBody(this.body);
+        var _this = _super.call(this, actor, "P2Body") || this;
+        _this.actorPosition = new THREE.Vector3();
+        _this.actorAngles = new THREE.Euler();
+        _this.body = new window.p2.Body();
+        SupEngine.P2.world.addBody(_this.body);
+        return _this;
     }
     P2Body.prototype.setIsLayerActive = function (active) { };
     P2Body.prototype.setup = function (config) {
@@ -64,27 +71,33 @@ var P2Body = (function (_super) {
     };
     return P2Body;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = P2Body;
 
 },{}],2:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var P2BodyMarkerUpdater_1 = require("./P2BodyMarkerUpdater");
 var THREE = SupEngine.THREE;
 var tmpVector3 = new THREE.Vector3();
 var tmpEulerAngles = new THREE.Euler();
-var P2BodyMarker = (function (_super) {
+var P2BodyMarker = /** @class */ (function (_super) {
     __extends(P2BodyMarker, _super);
     function P2BodyMarker(actor) {
-        _super.call(this, actor, "P2BodyMarker");
-        this.offset = new THREE.Vector3(0, 0, 0);
-        this.angle = 0;
-        this.markerActor = new SupEngine.Actor(this.actor.gameInstance, "Marker", null, { layer: -1 });
+        var _this = _super.call(this, actor, "P2BodyMarker") || this;
+        _this.offset = new THREE.Vector3(0, 0, 0);
+        _this.angle = 0;
+        _this.markerActor = new SupEngine.Actor(_this.actor.gameInstance, "Marker", null, { layer: -1 });
+        return _this;
     }
     P2BodyMarker.prototype.setIsLayerActive = function (active) {
         if (this.mesh != null)
@@ -144,12 +157,12 @@ var P2BodyMarker = (function (_super) {
     P2BodyMarker.Updater = P2BodyMarkerUpdater_1.default;
     return P2BodyMarker;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = P2BodyMarker;
 
 },{"./P2BodyMarkerUpdater":3}],3:[function(require,module,exports){
 "use strict";
-var P2BodyMarkerUpdater = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var P2BodyMarkerUpdater = /** @class */ (function () {
     function P2BodyMarkerUpdater(client, bodyRenderer, config) {
         this.bodyRenderer = bodyRenderer;
         this.config = config;
@@ -185,11 +198,11 @@ var P2BodyMarkerUpdater = (function () {
     };
     return P2BodyMarkerUpdater;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = P2BodyMarkerUpdater;
 
 },{}],4:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var P2Body_1 = require("./P2Body");
 var P2BodyMarker_1 = require("./P2BodyMarker");
 SupEngine.registerComponentClass("P2Body", P2Body_1.default);

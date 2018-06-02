@@ -1,24 +1,31 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 "use strict";
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
 var THREE = SupEngine.THREE;
 var CameraUpdater_1 = require("./CameraUpdater");
-var CameraMarker = (function (_super) {
+var CameraMarker = /** @class */ (function (_super) {
     __extends(CameraMarker, _super);
     function CameraMarker(actor) {
-        _super.call(this, actor, "Marker");
-        this.viewport = { x: 0, y: 0, width: 1, height: 1 };
-        this.projectionNeedsUpdate = true;
+        var _this = _super.call(this, actor, "Marker") || this;
+        _this.viewport = { x: 0, y: 0, width: 1, height: 1 };
+        _this.projectionNeedsUpdate = true;
         var geometry = new THREE.Geometry();
         for (var i = 0; i < 24; i++)
             geometry.vertices.push(new THREE.Vector3(0, 0, 0));
-        this.line = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true }));
-        this.actor.threeObject.add(this.line);
-        this.line.updateMatrixWorld(false);
+        _this.line = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial({ color: 0xffffff, opacity: 0.5, transparent: true }));
+        _this.actor.threeObject.add(_this.line);
+        _this.line.updateMatrixWorld(false);
+        return _this;
     }
     CameraMarker.prototype.setIsLayerActive = function (active) { this.line.visible = active; };
     CameraMarker.prototype.setConfig = function (config) {
@@ -128,12 +135,12 @@ var CameraMarker = (function (_super) {
     CameraMarker.Updater = CameraUpdater_1.default;
     return CameraMarker;
 }(SupEngine.ActorComponent));
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CameraMarker;
 
 },{"./CameraUpdater":2}],2:[function(require,module,exports){
 "use strict";
-var CameraUpdater = (function () {
+Object.defineProperty(exports, "__esModule", { value: true });
+var CameraUpdater = /** @class */ (function () {
     function CameraUpdater(client, camera, config) {
         var _this = this;
         this.onResourceReceived = function (resourceId, resource) {
@@ -165,11 +172,11 @@ var CameraUpdater = (function () {
     };
     return CameraUpdater;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CameraUpdater;
 
 },{}],3:[function(require,module,exports){
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var CameraMarker_1 = require("./CameraMarker");
 SupEngine.registerEditorComponentClass("CameraMarker", CameraMarker_1.default);
 

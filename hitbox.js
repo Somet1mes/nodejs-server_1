@@ -43,7 +43,7 @@ class Hitbox
 	    this.bottom = function () { return this.position.y - this.height / 2; };
 	    this.deltaX = function () { return this.position.x - this.previousPosition.x; };
 	    this.deltaY = function () { return this.position.y - this.previousPosition.y; };
-    return ArcadeBody2D;
+    //return ArcadeBody2D;
 	}
 
 	collides(body1, body2)

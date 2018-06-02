@@ -7,7 +7,7 @@ class Status_Effect
     private canAction: Boolean      //Does the current status allow for any action 
     private canAttack: Boolean      //Does the current status allow for attack actions
     private canMove: Boolean        //Does the current stats allow for movment actions
-    private timeRemaining: number   //How long the status has left
+    private timeRemaining: number   //How long the status has left in seconds
     private active: Boolean         //Is the status active
     
     
@@ -105,9 +105,10 @@ class Status_Effect
     }
     
    //checks if status is still active 
-   tick()
+   tick(period)
    {
-      this.timeRemaining--;
+      //let fps = Sup.Game.getFPS();
+      this.timeRemaining = this.timeRemaining - period;
       if(this.timeRemaining <= 0)
         {
           this.active = false;
