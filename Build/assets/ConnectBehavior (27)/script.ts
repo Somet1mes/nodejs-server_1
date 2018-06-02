@@ -7,8 +7,8 @@ class ConnectBehavior extends Sup.Behavior
   playerObj = new Player_Obj();
   
   socket;
-  serverURL = "http://127.0.0.1:8080";
-  //serverURL = "http://trying-again-trying-again.193b.starter-ca-central-1.openshiftapps.com/"
+  //serverURL = "http://127.0.0.1:8080";
+  serverURL = "http://nodejs-mongo-persistent-ele.a3c1.starter-us-west-1.openshiftapps.com/"
   currentPlayerStack: Player_and_Actor_Obj[];
   userActor: Sup.Actor;
   userClone: Player_and_Actor_Obj;
