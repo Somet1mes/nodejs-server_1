@@ -2,10 +2,21 @@ namespace Globals
 {
   
   // All varibles here have accesors (getVar) and mutators(setVar)
+  var url = "https://ele2.herokuapp.com/";
   var gravity = new Sup.Math.Vector2();
   var playerID:number;
   var clientSocket;
   export var serverClone:Sup.Actor;
+    
+    export function getURL()
+    {
+        return url;
+    }
+    
+    export function setURL(in_url)
+    {
+        url = in_url;
+    }
   
   export function setGravityV(inG:Sup.Math.Vector2)
   {
