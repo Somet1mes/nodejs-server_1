@@ -45,8 +45,8 @@ var pool = mysql.createPool({
     password: "candycane",
     database: "sso"
 });
-var server_port = +process.env.OPENSHIFT_NODEJS_PORT || 8080;
-var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0';
+var server_port = +(process.env.PORT) || 8080;
+var server_ip_address = process.env.IP || '0.0.0.0';
 // Non-connection based variables
 // The tick period of the server (in seconds)
 var period = 0.010;
