@@ -97,7 +97,7 @@ function onConnection(socket) {
         if (socket.checked === true) // check that a valid playerID has been given to this socket 
          {
             console.log("player added", socket.playerID);
-            //socket.playerID = playerID;
+            socket.playerName = socket.playerID;
             socket.player = new Player_1.default(20, 8); //create a new Player to store every thing about the player
             socket.player.playerID = socket.playerID;
             playerStack.push(socket.player);
@@ -138,8 +138,12 @@ function onConnection(socket) {
     // chat event
     // client_to_server_chat_message
     socket.on('c_t_s_chat_msg', function (msg) {
-        // does not emit to the client sending the msg
-        socket.to(socket.gameRoom).emit('s_t_c_chat_msg', msg); //server_to_client_chat_message
+        if (socket.checked === true) {
+            // does not emit to the client sending the msg
+            console.log(msg);
+            var msg_out = { name: socket.playerName, text: msg }; // stops the client sending a fake name
+            socket.to(socket.gameRoom).emit('s_t_c_chat_msg', msg_out); //server_to_client_chat_message
+        }
     });
     // More Game related events
     // Whenever the player presses a key
