@@ -62,11 +62,12 @@ class ChatHistoryBoxBehavior extends Sup.Behavior {
     
     listen()
     {
+        var _self = this;
         // server to client chat message
         Globals.clientSocket.addEventListener('s_t_c_chat_msg', 
                                               function(msg)
                                               {
-            this.addLine(msg);
+            _self.addLine(msg.name, msg.text);
         });
     }
     

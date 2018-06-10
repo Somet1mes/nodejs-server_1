@@ -144,7 +144,6 @@ function onConnection(socket)
                 // join the socket room for game_1
                 socket.join("game_1");
                 socket.gameRoom = "game_1";
-                console.log(playerStack);
                 playerStackSort();
                 socket.emit('Player Initialised');
                 // Get the values for the actor from the database given the playerID
@@ -184,7 +183,6 @@ function onConnection(socket)
             if (socket.checked === true)
             {
                 // does not emit to the client sending the msg
-                console.log(msg);
                 let msg_out = {name:socket.playerName, text:msg}; // stops the client sending a fake name
                 socket.to(socket.gameRoom).emit('s_t_c_chat_msg', msg_out); //server_to_client_chat_message
             }

@@ -57,7 +57,7 @@ class ChatTypeBoxBehavior extends Sup.Behavior {
 
             if (Sup.Input.wasKeyJustPressed("RETURN"))
               {
-                  Globals.clientSocket.emit('c_t_s_chat_ms', this.text) //client to server chat message
+                  Globals.clientSocket.emit('c_t_s_chat_msg', this.text) //client to server chat message
                   this.chatHistBox.addLine(Globals.getPlayerName(), this.text);
                   this.text = "";
                   this.column = this.text.length;
