@@ -1,5 +1,6 @@
 class FireBallBehavior extends AttacksBehavior {
   awake() {
+      super.awake();
     this.duration = 1; //in s
     this.timeRemaining = this.duration;
     this.speed = 10; //in pix/s

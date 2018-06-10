@@ -44,9 +44,68 @@
       "type": "tileSet"
     },
     {
+      "id": "70",
+      "name": "html",
+      "type": "fText"
+    },
+    {
       "id": "53",
       "name": "Globals",
       "type": "script"
+    },
+    {
+      "id": "72",
+      "name": "whiteSquare",
+      "type": "sprite"
+    },
+    {
+      "id": "68",
+      "name": "HUD",
+      "type": null,
+      "children": [
+        {
+          "id": "67",
+          "name": "HUD_Part_Behavior",
+          "type": "script"
+        },
+        {
+          "id": "78",
+          "name": "HUD",
+          "type": "script"
+        },
+        {
+          "id": "62",
+          "name": "Chat",
+          "type": null,
+          "children": [
+            {
+              "id": "66",
+              "name": "ChatTypeBoxBehavior",
+              "type": "script"
+            },
+            {
+              "id": "69",
+              "name": "ChatHistoryBoxBehavior",
+              "type": "script"
+            },
+            {
+              "id": "77",
+              "name": "backgroundPrefab",
+              "type": "scene"
+            },
+            {
+              "id": "71",
+              "name": "textPrefab",
+              "type": "scene"
+            },
+            {
+              "id": "76",
+              "name": "HUD_Chat_Behavior",
+              "type": "script"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "6",

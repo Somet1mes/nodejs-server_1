@@ -39,9 +39,12 @@ class PlayerBehavior extends Sup.Behavior
   update() 
   {
     this.time = new Date().getTime();
-    this.sendInputs();
     this.collisions();
-    this.checkAvaliableActions();
+      if (HUD.inFocus === "Game")
+          {
+              this.sendInputs();
+              this.checkAvaliableActions();
+          }
     this.attackCollisions();
     this.updateStatus();
     if (Sup.Input.isKeyDown(this.key.correct))

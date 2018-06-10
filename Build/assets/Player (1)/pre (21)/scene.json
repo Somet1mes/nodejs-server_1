@@ -8,7 +8,168 @@
         {
           "id": "5",
           "name": "camera",
-          "children": [],
+          "children": [
+            {
+              "id": "6",
+              "name": "chat",
+              "children": [
+                {
+                  "id": "8",
+                  "name": "chat_type_box",
+                  "children": [
+                    {
+                      "id": "10",
+                      "name": "cursor",
+                      "children": [],
+                      "components": [
+                        {
+                          "type": "TextRenderer",
+                          "config": {
+                            "formatVersion": 2,
+                            "fontAssetId": "44",
+                            "text": "|",
+                            "alignment": "left",
+                            "verticalAlignment": "bottom",
+                            "size": 64,
+                            "color": null,
+                            "overrideOpacity": false,
+                            "opacity": null
+                          },
+                          "id": "0"
+                        }
+                      ],
+                      "position": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                      },
+                      "orientation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                      },
+                      "scale": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 1
+                      },
+                      "visible": true,
+                      "layer": 0,
+                      "prefab": null
+                    }
+                  ],
+                  "components": [
+                    {
+                      "type": "TextRenderer",
+                      "config": {
+                        "formatVersion": 2,
+                        "fontAssetId": "44",
+                        "text": "Text",
+                        "alignment": "left",
+                        "verticalAlignment": "bottom",
+                        "size": 64,
+                        "color": "000000",
+                        "overrideOpacity": false,
+                        "opacity": null
+                      },
+                      "id": "0"
+                    },
+                    {
+                      "type": "Behavior",
+                      "config": {
+                        "behaviorName": "ChatTypeBoxBehavior",
+                        "propertyValues": {}
+                      },
+                      "id": "8"
+                    }
+                  ],
+                  "position": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0
+                  },
+                  "orientation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 0.3,
+                    "y": 0.3,
+                    "z": 1
+                  },
+                  "visible": true,
+                  "layer": 1,
+                  "prefab": null
+                },
+                {
+                  "id": "12",
+                  "name": "Chat_history_box",
+                  "children": [],
+                  "components": [
+                    {
+                      "type": "Behavior",
+                      "config": {
+                        "behaviorName": "ChatHistoryBoxBehavior",
+                        "propertyValues": {}
+                      },
+                      "id": "1"
+                    }
+                  ],
+                  "position": {
+                    "x": 0,
+                    "y": 1,
+                    "z": 0
+                  },
+                  "orientation": {
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "w": 1
+                  },
+                  "scale": {
+                    "x": 0.3,
+                    "y": 0.3,
+                    "z": 1
+                  },
+                  "visible": true,
+                  "layer": 1,
+                  "prefab": null
+                }
+              ],
+              "components": [
+                {
+                  "type": "Behavior",
+                  "config": {
+                    "behaviorName": "HUD_Chat_Behavior",
+                    "propertyValues": {}
+                  },
+                  "id": "3"
+                }
+              ],
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": -10
+              },
+              "orientation": {
+                "x": 0,
+                "y": 0,
+                "z": 0,
+                "w": 1
+              },
+              "scale": {
+                "x": 1,
+                "y": 1,
+                "z": 1
+              },
+              "visible": true,
+              "layer": 1,
+              "prefab": null
+            }
+          ],
           "components": [
             {
               "type": "Camera",
@@ -25,7 +186,7 @@
                 },
                 "depth": 1,
                 "nearClippingPlane": 0.1,
-                "farClippingPlane": 1000
+                "farClippingPlane": 1000.1
               },
               "id": "0"
             }
@@ -33,7 +194,7 @@
           "position": {
             "x": 0,
             "y": 0,
-            "z": 20
+            "z": 15
           },
           "orientation": {
             "x": 0,

@@ -104,6 +104,7 @@ function onConnection(socket) {
             game_1.addPlayer(socket.player.playerID, socket.player);
             // join the socket room for game_1
             socket.join("game_1");
+            socket.gameRoom = "game_1";
             console.log(playerStack);
             playerStackSort();
             socket.emit('Player Initialised');
@@ -134,6 +135,13 @@ function onConnection(socket) {
         }
     });
     //socket.name = "test";
+    // chat event
+    // client_to_server_chat_message
+    socket.on('c_t_s_chat_msg', function (msg) {
+        // does not emit to the client sending the msg
+        socket.to(socket.gameRoom).emit('s_t_c_chat_msg', msg); //server_to_client_chat_message
+    });
+    // More Game related events
     // Whenever the player presses a key
     socket.on("keyPress", function (input) {
         if (socket.checked === true) {
@@ -172,7 +180,7 @@ function onConnection(socket) {
                 playerStack.splice(i, 1); //remove the player from the array
             }
         }
-        console.log(playerStack);
+        //console.log(playerStack);
     }); //end on disconnect
 }
 // For sorting the playerstack by playerID

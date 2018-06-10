@@ -91,6 +91,7 @@ class TextFieldBehavior extends Sup.Behavior {
       if (idcheck === true)
         {
           Globals.setPlayerID(Number(id));
+            Globals.setPlayerName(id);
           //_self.socket.disconnect();
           Sup.loadScene("Scene");
         }
